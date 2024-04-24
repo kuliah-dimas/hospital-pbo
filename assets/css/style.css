@@ -45,6 +45,12 @@
     background: #dde5f4;
     height: 100vh;
   }
+
+  .brand {
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+  }
   
   .screen-1 {
     padding: 3em;
@@ -316,7 +322,7 @@ nav > ul > li > a {
   border-radius: 3px;
 }
 
-.logout-btn {
+.button_custom {
   background-color: var(--c-governor);
   color: white; 
   padding: 7px 15px; 
@@ -325,7 +331,7 @@ nav > ul > li > a {
   cursor: pointer; 
 }
 
-.logout-btn:hover {
+.button_custom:hover {
   background-color: #3b5998; 
 }
 
@@ -359,96 +365,113 @@ a {
   justify-content: center;
 }
 
-/* Style the contact section */
-section.contact {
-  display: flex;
-  flex-direction: row;
-  gap: 40px;
-  justify-content: center;
-  margin-top: 50px;
-}
-
-/* Style each card */
-section.contact > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 20px;
-  max-width: 400px;
-  background-color: var(--c-ash);
-  border-radius: 10px;
-}
-
-/* Style icons inside the cards */
-section.contact > div > div.icon {
-  font-size: 30px;
-  margin-bottom: 10px;
-  color: var(--c-indigo);
-}
-
-/* Style text inside the cards */
-section.contact > div > span {
-  font-size: 16px;
-  color: #333;
-  text-align: center;
-}
-
-
-
-section.background_detail_rs {
+.flex_bg {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 500px;
-  width: 100%;
-  position: relative;
-  background-image: url("../img/background_rs.jpg");
-  background-size: cover;
-  background-position: center;
 }
 
-section.background_detail_rs {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 500px;
-  width: 100%;
-  background-image: url("../img/background_rs.jpg");
-  background-size: cover;
-  background-position: center;
-}
-
-.overlay {
+.flex_bg > .gradient-color-purple {
+  display: block;
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(3px);
-  z-index: 0;
+  width: 800px;
+  height: 200px;
+  background-image: linear-gradient(to bottom, var(--c-indigo), var(--c-cold-purple));
+  border-radius: 0px 0px 100% 100%;
+  filter: blur(180px);
 }
 
-section.background_detail_rs > span {
-  position: relative;
-  z-index: 1;
-  font-size: 60px;
-  color: white;
-  font-weight: bold;
+section.about_detail_rs {
+  margin-top: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+section.about_detail_rs > span {
+  border: 2px solid var(--c-governor);
+  padding: 10px 20px;
+  border-radius: 20px;
+  color: var(--c-governor);
+}
+
+.button_border_governor {
+  border: 2px solid var(--c-governor);
+  padding: 10px 20px;
+  width: max-content;
+  border-radius: 20px;
+  color: var(--c-governor);
+  cursor: pointer;
 }
 
 section.about_rs {
   display: flex;
+  width: auto;
+  flex-direction: column;
   justify-content: center;
-  margin-top: 20px;
-  width: 100%;
-  
+  align-items: center;
 }
+
+section.about_rs > span {
+  width: 80%;
+  text-align: justify;
+}
+
+section.about_rs > span:first-child {
+  font-size: 50px;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: center;
+}
+
+
+section.about_rs > span:nth-child(2) {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+section.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section.contact > div {
+  font-size: 18px;
+  width: 80%;
+  margin-top: 20px;
+}
+
+.contact > div > div:first-child {
+  font-size: 25px;
+  background-image: linear-gradient(to bottom, var(--c-governor), var(--c-indigo));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: bold;
+}
+
+.contact > div > div:nth-child(2) {
+  margin-top: 10px;
+}
+
 
 .table_doctor {
   display: flex;
-  justify-content: center;
-  margin-top: 25px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5em;
+  margin-bottom: 5em;
+}
+
+.table_doctor > div:first-child {
+  font-size: 30px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+  background-image: linear-gradient(to bottom, var(--c-governor), var(--c-indigo));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 table {
@@ -476,4 +499,62 @@ tr:nth-child(even) {
 /* Style the table data cells */
 td {
   padding: 8px;
+}
+
+.rate {
+  height: 46px;
+}
+
+.rate:not(:checked) > input {
+  position:absolute;
+  top:-9999px;
+}
+.rate:not(:checked) > label {
+  float:right;
+  width:1em;
+  overflow:hidden;
+  white-space:nowrap;
+  cursor:pointer;
+  font-size:30px;
+  color:#ccc;
+}
+.rate:not(:checked) > label:before {
+  content: '★ ';
+}
+.rate > input:checked ~ label {
+  color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+  color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+  color: #c59b08;
+}
+
+.popup_card_rating {
+  display: none;
+  position: absolute;
+  transform: translate(12em, 1em);
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.rating_card {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: min-content;
+}
+
+.rating_card > textarea {
+  font-size: 16px;
+  padding: 6px;
 }

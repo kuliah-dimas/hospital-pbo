@@ -2,13 +2,10 @@
 require 'config.php';
 session_start();
 
-if (!isset($_SESSION['authenticated'])) {
-    header("Location: login.php");
-    exit;
-}
-
+    $isAuthenticated = isset($_SESSION['authenticated']);
     $email = $_SESSION['email'];
-    if (isset($email)) {
+
+    if ($isAuthenticated && isset($email)) {
         $sqlSelectUserSession = "SELECT full_name, email, role FROM user WHERE email = '$email' LIMIT 1";
         $result = mysqli_query($conn, $sqlSelectUserSession);
         if ($result && mysqli_num_rows($result) > 0) {
@@ -38,16 +35,28 @@ if (!isset($_SESSION['authenticated'])) {
 
 <body>
     
-<?php if ($role === "admin"): ?>
     <nav>
+        <?php if ($role === "admin" && $isAuthenticated): ?>
         <ul>
-            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Dashboard</a></li>            
             <li id="adminLink"><a href="#">Admin</a></li>
         </ul>
+        <?php endif; ?>
 
-        <form method="post">
-            <button type="submit" class="logout-btn" name="logout">Logout</button>
-        </form>
+        <div class="brand">Hospital</div>
+
+
+        <?php if ($isAuthenticated): ?>
+            <?php if ($role === "admin"): ?>
+                <form method="post">
+                    <button type="submit" class="button_custom" name="logout">Logout</button>
+                </form>
+            <?php endif; ?>
+        <?php else: ?>
+            <form action="login.php">
+                <button type="submit" class="button_custom">Login</button>
+            </form>
+        <?php endif; ?>
     </nav>
 
     <div id="adminPopup" class="popup">
@@ -57,7 +66,6 @@ if (!isset($_SESSION['authenticated'])) {
             <li><a href="#">Tambah Dokter ke Rumah Sakit</a></li>
         </ul>
     </div>
-<?php endif; ?>
 
 <div class="cards-rs">
     <div class="grid-3">
