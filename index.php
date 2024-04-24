@@ -43,7 +43,7 @@ session_start();
         </ul>
         <?php endif; ?>
 
-        <div class="brand">Hospital</div>
+        <a href="index.php"><div class="brand">Hospital</div></a>
 
 
         <?php if ($isAuthenticated): ?>
@@ -72,6 +72,7 @@ session_start();
     <?php 
         $sql = "SELECT hospital_id, name, address, phone, rating FROM hospital ORDER BY rating DESC;";
         $result = mysqli_query($conn, $sql);
+
         while ($row = mysqli_fetch_assoc($result)):
     ?>
         <article class="information [ card-rs ]">
