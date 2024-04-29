@@ -1,5 +1,5 @@
 <?php
-require 'config.php';
+require '../config.php';
 session_start();
 
 $isAuthenticated = isset($_SESSION['authenticated']);
@@ -16,12 +16,25 @@ if ($isAuthenticated && isset($email)) {
     }
 }
 
+if (!$isAuthenticated) {
+    echo "<script>alert('Silahkan login terlebih dahulu.');</script>";
+    header("Location: ../login.php");
+    exit();
+}
+
+if ($role != "admin") {
+    echo "<script>alert('Akses tidak diizinkan, silahkan hubungi admin.');</script>";
+    header("Location: doctor_list.php");
+    exit();
+}
+
 if (isset($_POST['logout'])) {
     session_unset();
     session_destroy();
-    header("Location: login.php");
-    exit;
+    header("Location: ../login.php");
+    exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -29,12 +42,15 @@ if (isset($_POST['logout'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Halaman Utama</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor List</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
 <body>
+
 
     <nav>
         <ul>
@@ -69,36 +85,51 @@ if (isset($_POST['logout'])) {
         </ul>
     </div>
 
-    <div class="cards-rs">
-        <div class="grid-3">
-            <?php
-            $sql = "SELECT hospital_id, name, address, phone, rating FROM hospital ORDER BY rating DESC;";
-            $result = mysqli_query($conn, $sql);
 
-            while ($row = mysqli_fetch_assoc($result)) :
-            ?>
-                <article class="information [ card-rs ]">
-                    <span class="tag">Rumah Sakit</span>
-                    <span class="tag">
-                        <i class="fa fa-star"></i>
-                        <span><?= $row["rating"] ?></span>
-                    </span>
-                    <h2 class="title"><?= $row["name"] ?></h2>
-                    <p class="info"><?= $row["address"] ?>.</p>
-                    <p class="info">No Phone: <?= $row["phone"] ?>.</p>
-
-                    <a href="detail_rs.php?hospital_id=<?= $row["hospital_id"] ?>">
-                        <button class="button mt-5">
-                            Lihat Detail
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="none">
-                                <path d="M0 0h24v24H0V0z" fill="none" />
-                                <path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4v3z" fill="currentColor" />
-                            </svg>
-                        </button>
-                    </a>
-                </article>
-            <?php endwhile; ?>
+    <div class="table_body_custom">
+        <div>
+            <div>
+                <a href="/admin/doctor_add.php" class="button_action_custom">Tambah Dokter</a>
+            </div>
+            <div></div>
         </div>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nama</th>
+                    <th>Spesialisasi</th>
+                    <th>Phone</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $sql = "SELECT * FROM doctor";
+
+                $result = mysqli_query($conn, $sql);
+                $count = 1;
+                while ($row = mysqli_fetch_assoc($result)) :
+                ?>
+                    <tr>
+                        <td><?= $count++ ?></td>
+                        <td><?= $row["name"] ?></td>
+                        <td><?= $row["specialization"] ?></td>
+                        <td><?= $row["phone"] ?></td>
+                        <td>
+                            <form action="/admin/doctor_edit.php?doctor_id=<?= $row["doctor_id"] ?>" method="post">
+                                <button type="submit" name="edit" class="button_action_custom">Edit</button>
+                            </form>
+                            <form action="/admin/doctor_delete.php?doctor_id=<?= $row["doctor_id"] ?>" method="post">
+                                <button type="submit" name="submit" class="button_action_custom">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+
+                <?php endwhile; ?>
+
+            </tbody>
+        </table>
     </div>
 
     <script>
