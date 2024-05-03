@@ -31,88 +31,61 @@ if (isset($_POST['logout'])) {
     <meta charset="UTF-8">
     <title>Halaman Utama</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
 
-    <nav>
-        <ul>
-            <li><a href="../index.php">Dashboard</a></li>
-            <?php if ($role === "admin" && $isAuthenticated) : ?>
-                <li id="adminLink"><a href="#">Admin</a></li>
-            <?php endif; ?>
+    <div class="absolute -z-10 h-[877px] w-[877px] 
+        -translate-x-32 opacity-30 rounded-full 
+        inset-0 bg-blue-500 blur-[150px]">
+    </div>
 
+    <div class="absolute -z-10 h-[877px] w-[877px] 
+        translate-x-[800px] -translate-y-[200px] opacity-30 rounded-full 
+        inset-0 bg-pink-500 blur-[200px]">
+    </div>
+
+    <div class="absolute -z-10 h-[877px] w-[877px] 
+        translate-x-[1500px] -translate-y-[200px] opacity-30 rounded-full 
+        inset-0 bg-yellow-500 blur-[300px]">
+    </div>
+
+    <nav class="flex flex fixed items-center w-full justify-around py-5 px-10">
+        <div class="brand flex items-center gap-3">
+            <img class="h-10 w-10" src="/assets/img/svg/brand_logo.svg" alt="Brand">
+            <h1 class="text-2xl font-bold">HOSPITAL</h1>
+        </div>
+
+        <ul class="flex items-center gap-10">
+            <li>Home</li>
+            <li><a href="hospital_list.php">Daftar Rumah Sakit</a></li>
+            <li>Tentang Kami</li>
+            <li>Contact</li>
+            <li>
+                <div class="bg-black rounded rounded-full  text-white px-10 py-2">Login</div>
+            </li>
         </ul>
-
-        <a href="index.php">
-            <div class="brand">Hospital</div>
-        </a>
-
-
-        <?php if ($isAuthenticated) : ?>
-            <form method="post">
-                <button type="submit" class="button_custom" name="logout">Logout</button>
-            </form>
-        <?php else : ?>
-            <form action="login.php">
-                <button type="submit" class="button_custom">Login</button>
-            </form>
-        <?php endif; ?>
     </nav>
 
-    <div id="adminPopup" class="popup">
-        <ul>
-            <li><a href="/admin/doctor_list.php">Dokter</a></li>
-            <li><a href="/admin/hospital_list.php">Rumah Sakit</a></li>
-            <li><a href="/admin/user_list.php">Akun Pengguna</a></li>
-        </ul>
-    </div>
-
-    <div class="cards-rs">
-        <div class="grid-3">
-            <?php
-            $sql = "SELECT hospital_id, name, address, phone, rating FROM hospital ORDER BY rating DESC;";
-            $result = mysqli_query($conn, $sql);
-
-            while ($row = mysqli_fetch_assoc($result)) :
-            ?>
-                <article class="information [ card-rs ]">
-                    <span class="tag">Rumah Sakit</span>
-                    <span class="tag">
-                        <i class="fa fa-star"></i>
-                        <span><?= $row["rating"] ?></span>
-                    </span>
-                    <h2 class="title"><?= $row["name"] ?></h2>
-                    <p class="info"><?= $row["address"] ?>.</p>
-                    <p class="info">No Phone: <?= $row["phone"] ?>.</p>
-
-                    <a href="detail_rs.php?hospital_id=<?= $row["hospital_id"] ?>">
-                        <button class="button mt-5">
-                            Lihat Detail
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="none">
-                                <path d="M0 0h24v24H0V0z" fill="none" />
-                                <path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4v3z" fill="currentColor" />
-                            </svg>
-                        </button>
-                    </a>
-                </article>
-            <?php endwhile; ?>
+    <section class="content flex items-center justify-center h-screen">
+        <div class="flex flex-col gap-10">
+            <div class="font-bold text-7xl w-max">
+                <p class="text-[#294282]">Kami Membantu Anda</p>
+                <p>Mencari</p>
+                <p class="text-[#F56767]"> Rumah Sakit Terbaik.</p>
+            </div>
+            <a href="hospital_list.php">
+                <div class="flex items-center gap-5 bg-[#294282] w-max px-7 py-2 rounded-full">
+                    <p class="font-bold text-white">Cari Rumah Sakit</p>
+                    <img src="/assets/img/svg/arrow.svg" alt="Arrow">
+                </div>
+            </a>
         </div>
-    </div>
-
-    <script>
-        function showAdminPopup() {
-            var popup = document.getElementById('adminPopup');
-            popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
-        }
-
-        document.getElementById('adminLink').addEventListener('click', function(event) {
-            event.preventDefault();
-            showAdminPopup();
-        });
-    </script>
-
+        <div>
+            <img src="/assets/img/svg/vector_doctor.svg" alt="Doctor">
+        </div>
+    </section>
 </body>
 
 </html>
