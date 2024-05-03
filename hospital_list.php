@@ -6,22 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Rumah Sakit</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
 </head>
 
 <body>
 
-    <div class="absolute -z-10 h-[877px] w-[877px] 
-        -translate-x-32 opacity-30 rounded-full 
+    <div class="absolute -z-10 h-[877px] w-[877px]
+        -translate-x-32 opacity-30 rounded-full
         inset-0 bg-blue-500 blur-[150px]">
     </div>
 
-    <div class="absolute -z-10 h-[877px] w-[877px] 
-        translate-x-[800px] -translate-y-[200px] opacity-30 rounded-full 
+    <div class="absolute -z-10 h-[877px] w-[877px]
+        translate-x-[800px] -translate-y-[200px] opacity-30 rounded-full
         inset-0 bg-pink-500 blur-[200px]">
     </div>
 
-    <div class="absolute -z-10 h-[877px] w-[877px] 
-        translate-x-[1500px] -translate-y-[200px] opacity-30 rounded-full 
+    <div class="absolute -z-10 h-[877px] w-[877px]
+        translate-x-[1500px] -translate-y-[200px] opacity-30 rounded-full
         inset-0 bg-yellow-500 blur-[300px]">
     </div>
 
@@ -42,9 +44,7 @@
         </ul>
     </nav>
 
-    <section class="content">
-        <section class="search"></section>
-
+    <section class="content flex flex-col items-center pt-32">
         <section class="hospital_list">
             <div>
                 <div><i class="fa fa-star"></i> 5</div>

@@ -2,19 +2,6 @@
 require 'config.php';
 session_start();
 
-$isAuthenticated = isset($_SESSION['authenticated']);
-$email = $_SESSION['email'];
-
-if ($isAuthenticated && isset($email)) {
-    $sqlSelectUserSession = "SELECT full_name, email, role FROM user WHERE email = '$email' LIMIT 1";
-    $result = mysqli_query($conn, $sqlSelectUserSession);
-    if ($result && mysqli_num_rows($result) > 0) {
-        $userData = mysqli_fetch_assoc($result);
-        $fullName = $userData['full_name'];
-        $userEmail = $userData['email'];
-        $role = $userData['role'];
-    }
-}
 
 if (isset($_POST['logout'])) {
     session_unset();
@@ -36,28 +23,28 @@ if (isset($_POST['logout'])) {
 
 <body>
 
-    <div class="absolute -z-10 h-[877px] w-[877px] 
-        -translate-x-32 opacity-30 rounded-full 
-        inset-0 bg-blue-500 blur-[150px]">
+    <div class="absolute -z-10 h-screen w-[550px]
+        -translate-x-32 opacity-30 rounded-full
+        bg-blue-500 blur-[150px]">
     </div>
 
-    <div class="absolute -z-10 h-[877px] w-[877px] 
-        translate-x-[800px] -translate-y-[200px] opacity-30 rounded-full 
-        inset-0 bg-pink-500 blur-[200px]">
+    <div class="absolute -z-10 h-screen w-[550px]
+        translate-x-[800px] -translate-y-[200px] opacity-30 rounded-full
+        bg-pink-500 blur-[200px]">
     </div>
 
-    <div class="absolute -z-10 h-[877px] w-[877px] 
-        translate-x-[1500px] -translate-y-[200px] opacity-30 rounded-full 
-        inset-0 bg-yellow-500 blur-[300px]">
+    <div class="absolute -z-10 h-screen
+        translate-x-[1500px] -translate-y-[200px] opacity-30 rounded-full
+        bg-yellow-500 blur-[300px]">
     </div>
 
-    <nav class="flex flex fixed items-center w-full justify-around py-5 px-10">
+    <nav id="navBar" class="flex flex fixed items-center w-full justify-around py-5 px-10">
         <div class="brand flex items-center gap-3">
             <img class="h-10 w-10" src="/assets/img/svg/brand_logo.svg" alt="Brand">
             <h1 class="text-2xl font-bold">HOSPITAL</h1>
         </div>
 
-        <ul class="flex items-center gap-10">
+        <ul class="flex items-center gap-10 ">
             <li>Home</li>
             <li><a href="hospital_list.php">Daftar Rumah Sakit</a></li>
             <li>Tentang Kami</li>
@@ -69,8 +56,8 @@ if (isset($_POST['logout'])) {
     </nav>
 
     <section class="content flex items-center justify-center h-screen">
-        <div class="flex flex-col gap-10">
-            <div class="font-bold text-7xl w-max">
+        <div class="flex flex-col gap-10 mx-10">
+            <div class="font-bold text-6xl w-max">
                 <p class="text-[#294282]">Kami Membantu Anda</p>
                 <p>Mencari</p>
                 <p class="text-[#F56767]"> Rumah Sakit Terbaik.</p>
@@ -86,6 +73,10 @@ if (isset($_POST['logout'])) {
             <img src="/assets/img/svg/vector_doctor.svg" alt="Doctor">
         </div>
     </section>
+
+    <script>
+        const navBar = document.getElementById("navBar")
+    </script>
 </body>
 
 </html>
