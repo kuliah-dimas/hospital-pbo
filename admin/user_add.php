@@ -59,32 +59,54 @@ if (isset($_POST['submit'])) {
 <?php include('header_admin.php'); ?>
 
 
-<div class="section_form_input">
-    <form class="form_custom" method="post">
+<div class="flex h-screen justify-center items-center">
+    <form class="flex flex-col items-center gap-5 w-3/4 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2" method="post">
 
-        <h2>Tambah Anggota</h2>
+        <h2 class="text-4xl font-bold">Tambah Anggota</h2>
 
-        <div>
-            <label for="fullName">Name</label>
-            <input type="text" id="fullName" name="fullName" required>
+        <div class="flex flex-col gap-2 w-full">
+            <label for="fullName" class="font-bold">Name</label>
+            <input class="border h-10 px-3 rounded-md" type="text" id="fullName" name="fullName" placeholder="Masukkan nama" required>
         </div>
 
-        <div>
-            <label for="email">Email</label>
-            <input type="text" id="email" name="email" required>
+        <div class="flex flex-col gap-2 w-full">
+            <label for="email" class="font-bold">Email</label>
+            <input class="border h-10 px-3 rounded-md" type="text" id="email" name="email" placeholder="Masukkan email" required>
         </div>
 
-        <div>
-            <label for="password">Password</label>
-            <input type="text" id="password" name="password" required>
+        <div class="flex flex-col gap-2 w-full">
+            <label for="password" class="font-bold">Nomor Telepon</label>
+            <input class="border h-10 px-3 rounded-md" type="text" id="phone" name="phone" placeholder="Masukkan nomor telepon" required>
         </div>
 
-        <div>
-            <label for="role">Role</label>
-            <input type="text" id="role" name="role" required>
+        <div class="flex flex-col gap-2 w-full">
+          <label for="role" class="font-bold">Role</label>
+          <div class="flex flex-col border h-auto px-3 rounded-md">
+            <div class="flex items-center">
+              <input
+                type="radio"
+                id="admin"
+                name="admin"
+                required
+                class="mr-2"
+              />
+              <label for="admin">Admin</label>
+            </div>
+            <div class="flex items-center">
+              <input
+                type="radio"
+                id="basic"
+                name="admin"
+                required
+                class="mr-2"
+              />
+              <label for="basic">Basic</label>
+            </div>
+          </div>
         </div>
 
-        <button type="submit" name="submit" class="button_custom" value="submit">Submit</button>
+        <button class="flex justify-center items-center font-bold
+                 text-lg text-white bg-black rounded-full w-full h-10 mt-5" type="submit" name="submit" value="submit">Submit</button>
     </form>
 </div>
 
