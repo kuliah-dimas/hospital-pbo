@@ -2,12 +2,13 @@
 
 session_start();
 
-if (isset($_SESSION['authenticated'])) {
-    $isAuthenticated = $_SESSION['authenticated'];
+$isAuthenticated = isset($_SESSION['authenticated']);
+if (!$isAuthenticated) {
+    header("Location: ../login.php");
 }
 
-if (isset($_SESSION['email'])) {
-    $email = $_SESSION['email'];
+$email = isset($_SESSION['email']);
+if ($email) {
     $userInfo = getUserInfo($conn, $email);
     $role = $userInfo['role'];
 }
