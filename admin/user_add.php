@@ -65,4 +65,4 @@ if (isset($_POST['submit'])) {
     </form>
 </div>
 
-<?php include('../footer.php'); ?>
+<?php include('footer_admin.php') ?>

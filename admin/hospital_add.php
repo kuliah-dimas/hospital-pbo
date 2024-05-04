@@ -67,4 +67,4 @@ window.location.href = 'hospital_list.php';
 
 
 
-<?php include('../footer.php'); ?>
+<?php include('footer_admin.php') ?>

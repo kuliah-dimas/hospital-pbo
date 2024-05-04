@@ -28,25 +28,21 @@ if (isset($_POST['submit'])) {
 
 
 <div class="flex h-screen justify-center items-center">
-    <form class="flex flex-col items-center gap-5 w-3/4 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2"
-        method="post">
+    <form class="flex flex-col items-center gap-5 w-3/4 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2" method="post">
         <h1 class="text-4xl font-bold">Edit Dokter</h1>
 
         <div class="flex flex-col gap-2 w-full">
             <label for="name" class="font-bold">Nama</label>
-            <input class="border h-10 px-3 rounded-md" type="text" name="name" placeholder="Masukkan nama anda"
-                value="<?= $name ?>">
+            <input class="border h-10 px-3 rounded-md" type="text" name="name" placeholder="Masukkan nama anda" value="<?= $name ?>">
         </div>
 
         <div class="flex flex-col gap-2 w-full">
             <label for="specialization" class="font-bold">Spesialisasi</label>
-            <input class="border h-10 px-3 rounded-md" type="specialization" name="specialization"
-                placeholder="Masukkan spesialisasi anda" value="<?= $specialization ?>">
+            <input class="border h-10 px-3 rounded-md" type="specialization" name="specialization" placeholder="Masukkan spesialisasi anda" value="<?= $specialization ?>">
         </div>
         <div class="flex flex-col gap-2 w-full">
             <label for="phone" class="font-bold">Nomor Telepon</label>
-            <input class="border h-10 px-3 rounded-md" type="number" name="phone"
-                placeholder="Masukkan nomor telepon anda" value="<?= $phone ?>">
+            <input class="border h-10 px-3 rounded-md" type="number" name="phone" placeholder="Masukkan nomor telepon anda" value="<?= $phone ?>">
         </div>
 
         <button class="flex justify-center items-center font-bold
@@ -55,4 +51,4 @@ if (isset($_POST['submit'])) {
     </form>
 </div>
 
-<?php include('../footer.php'); ?>
+<?php include('footer_admin.php') ?>

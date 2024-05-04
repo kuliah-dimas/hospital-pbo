@@ -14,6 +14,5 @@ require_once('../config.php');
 
 <body>
 
-
-    <?php include('navbar_admin.php') ?>
     <?php include('../background.php') ?>
+    <?php include('navbar_admin.php') ?>

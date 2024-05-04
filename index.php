@@ -2,7 +2,7 @@
 
 <section class="content flex flex-col-reverse lg:flex-row md:mx-5 pt-20 sm:mt-0 items-center justify-evenly h-screen">
     <div class="flex flex-col gap-10">
-        <div class="font-bold text-4xl md:text-6xl lg:text-5xl w-max">
+        <div class="flex flex-col gap-4 font-bold text-4xl md:text-6xl lg:text-5xl w-max">
             <p class="text-[#294282]">Kami Membantu Anda</p>
             <p>Mencari</p>
             <p class="text-[#F56767]"> Rumah Sakit Terbaik.</p>
