@@ -6,6 +6,10 @@ if (isset($_SESSION['authenticated'])) {
     $isAuthenticated = $_SESSION['authenticated'];
 }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> e87b58d0de9ea7365ebf79cd438f38228e077bd7
 if (isset($_SESSION['email'])) {
     $email = $_SESSION['email'];
     $userInfo = getUserInfo($conn, $email);
