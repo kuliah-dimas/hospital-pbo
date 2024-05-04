@@ -1,4 +1,5 @@
 <?php
+include('header_admin.php');
 
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
@@ -9,17 +10,20 @@ if (isset($_POST['submit'])) {
     $description = $_POST['description'];
 
 
-    $sqlInsertData = "INSERT INTO hospital (name, address, phone, email, website, description) VALUES ('$name', '$address', '$phone', '$email', '$website', '$description');";
+    $sqlInsertData = "INSERT INTO hospital (name, address, phone, email, website, description) VALUES ('$name', '$address',
+'$phone', '$email', '$website', '$description');";
     $result = mysqli_query($conn, $sqlInsertData);
     if ($result) {
-        echo "<script>alert('Berhasil tambah Rumah Sakit.');</script>";
-        echo "<script>window.location.href='hospital_list.php';</script>";
+        echo "<script>
+alert('Berhasil tambah Rumah Sakit.');
+</script>";
+        echo "<script>
+window.location.href = 'hospital_list.php';
+</script>";
         exit();
     }
 }
 ?>
-
-<?php include('header_admin.php') ?>
 
 
 <div class="section_form_input">
@@ -62,17 +66,5 @@ if (isset($_POST['submit'])) {
 </div>
 
 
-<script>
-    function showAdminPopup() {
-        var popup = document.getElementById('adminPopup');
-        popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
-    }
 
-    document.getElementById('adminLink').addEventListener('click', function(event) {
-        event.preventDefault();
-        showAdminPopup();
-    });
-</script>
-</body>
-
-</html>
+<?php include('../footer.php'); ?>

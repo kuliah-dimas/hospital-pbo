@@ -1,5 +1,9 @@
 <?php
-$sqlGetUserDetail = "SELECT full_name, email, role FROM user WHERE user_id = '$userId'";
+include('header_admin.php');
+
+$userId = $_GET['user_id'];
+
+$sqlGetUserDetail = "SELECT full_name, email, role FROM user WHERE user_id = '$userId' LIMIT 1;";
 $result = mysqli_query($conn, $sqlGetUserDetail);
 if (mysqli_num_rows($result) > 0) {
     $userData = mysqli_fetch_assoc($result);
@@ -9,7 +13,7 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 if (isset($_POST['submit'])) {
-    $fullName = $_POST['full_name'];
+    $fullName = $_POST['fullName'];
     $email = $_POST['email'];
     $role = $_POST['role'];
 
@@ -39,34 +43,40 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
 
-<?php include('header_admin.php'); ?>
+<div class="flex h-screen justify-center items-center">
+    <form class="flex flex-col items-center gap-5 w-3/4 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2" method="post">
 
-<div class="section_form_input">
-    <form class="form_custom" method="post">
+        <h2 class="text-4xl font-bold">Edit Pengguna</h2>
 
-        <h2>Edit User</h2>
-
-        <div>
-            <label for="name">Name</label>
-            <input type="text" id="full_name" name="full_name" value="<?= $fullName ?>" required>
+        <div class="flex flex-col gap-2 w-full">
+            <label for="fullName" class="font-bold">Name</label>
+            <input class="border h-10 px-3 rounded-md" type="text" id="fullName" name="fullName" placeholder="Masukkan nama lengkap" value="<?= $fullName ?>" required>
         </div>
 
-        <div>
-            <label for="email">email</label>
-            <input type="text" id="email" name="email" value="<?= $email ?>" required>
+        <div class=" flex flex-col gap-2 w-full">
+            <label for="email" class="font-bold">Email</label>
+            <input class="border h-10 px-3 rounded-md" type="text" id="email" name="email" placeholder="Masukkan email" value="<?= $email ?>" required>
         </div>
 
-        <div>
-            <label for="role">role</label>
-            <input type="tel" id="role" name="role" value="<?= $role ?>" required>
+        <div class="flex flex-col gap-2 w-full">
+            <label for="role" class="font-bold">Role</label>
+            <div class="flex flex-col h-auto px-3 rounded-md">
+                <div class="flex items-center">
+                    <input type="radio" id="admin" name="role" class="mr-2" value="admin" <?php echo ($role == 'admin') ? 'checked' : ''; ?> required />
+                    <label for="admin">Admin</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="radio" id="basic" name="role" class="mr-2" value="basic" <?php echo ($role == 'basic') ? 'checked' : ''; ?> required />
+                    <label for="basic">Basic</label>
+                </div>
+            </div>
         </div>
 
-        <button type="submit" name="submit" class="button_custom" value="submit">Submit</button>
+
+        <button class="flex justify-center items-center font-bold
+                 text-lg text-white bg-black rounded-full w-full h-10 mt-5" type="submit" name="submit" value="submit">Submit</button>
     </form>
 </div>
-</body>
 
-</html>
+<?php include('../footer.php'); ?>

@@ -1,4 +1,6 @@
 <?php
+include('header_admin.php');
+
 function getDoctor($conn)
 {
     $queryGetDoctor = "SELECT * FROM doctor";
@@ -8,7 +10,6 @@ $result = getDoctor($conn);
 
 ?>
 
-<?php include('header_admin.php'); ?>
 
 <div class="flex flex-col justify-center items-center pt-28 mb-20">
     <div class=" w-3/4">
