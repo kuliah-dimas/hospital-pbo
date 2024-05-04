@@ -96,7 +96,7 @@ if (isset($_POST['submit'])) {
               <input
                 type="radio"
                 id="basic"
-                name="admin"
+                name="basic"
                 required
                 class="mr-2"
               />
