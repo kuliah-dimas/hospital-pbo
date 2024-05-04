@@ -51,53 +51,7 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
-</head>
-
-<body>
-
-    <nav>
-        <ul>
-            <li><a href="../index.php">Dashboard</a></li>
-            <?php if ($role === "admin" && $isAuthenticated) : ?>
-            <li id="adminLink"><a href="#">Admin</a></li>
-            <?php endif; ?>
-
-        </ul>
-
-        <a href="index.php">
-            <div class="brand">Hospital</div>
-        </a>
-
-
-        <?php if ($isAuthenticated) : ?>
-        <form method="post">
-            <button type="submit" class="button_custom" name="logout">Logout</button>
-        </form>
-        <?php else : ?>
-        <form action="login.php">
-            <button type="submit" class="button_custom">Login</button>
-        </form>
-        <?php endif; ?>
-    </nav>
-
-    <div id="adminPopup" class="popup">
-        <ul>
-            <li><a href="/admin/doctor_list.php">Dokter</a></li>
-            <li><a href="/admin/hospital_list">Rumah Sakit</a></li>
-            <li><a href="/admin/user_list.php">Akun Pengguna</a></li>
-        </ul>
-    </div>
-
+    <?php include('header_admin.php'); ?>
 
 
     <div class="section_form_input">
@@ -139,18 +93,7 @@ if (isset($_POST['submit'])) {
         </form>
     </div>
 
-
-    <script>
-    function showAdminPopup() {
-        var popup = document.getElementById('adminPopup');
-        popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
-    }
-
-    document.getElementById('adminLink').addEventListener('click', function(event) {
-        event.preventDefault();
-        showAdminPopup();
-    });
-    </script>
+    <?php include('../footer.php.php'); ?>
 </body>
 
 </html>

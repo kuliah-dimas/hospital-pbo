@@ -2,8 +2,16 @@
 
 session_start();
 
-$isAuthenticated = $_SESSION['authenticated'];
-$email = $_SESSION['email'];
+if (isset($_SESSION['authenticated'])) {
+    $isAuthenticated = $_SESSION['authenticated'];
+}
+
+
+if (isset($_SESSION['email'])) {
+    $email = $_SESSION['email'];
+    $userInfo = getUserInfo($conn, $email);
+    $role = $userInfo['role'];
+}
 
 function getUserInfo($conn, $email)
 {
@@ -12,9 +20,6 @@ function getUserInfo($conn, $email)
     $userInfo = mysqli_fetch_assoc($result);
     return $userInfo;
 }
-
-$userInfo = getUserInfo($conn, $email);
-$role = $userInfo['role'];
 
 if (isset($_POST['logout'])) {
     session_unset();
