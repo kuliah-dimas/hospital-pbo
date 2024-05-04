@@ -1,38 +1,9 @@
 <?php
-require('../config.php');
+include('header_admin.php');
 
-session_start();
-$isAuthenticated = isset($_SESSION['authenticated']);
-$emailSession = $_SESSION['email'];
 $userId = $_GET['user_id'];
 
-$sqlSelectUserSession = "SELECT role FROM user WHERE email = '$emailSession' LIMIT 1";
-$result = mysqli_query($conn, $sqlSelectUserSession);
-if (!$result) {
-    $errorMsg = "Gagal mengambil data user, " . mysqli_error($conn);
-    echo "<script>alert('$errorMsg');</script>";
-    header("Location: user_list.php");
-    exit();
-}
-
-if (mysqli_num_rows($result) > 0) {
-    $userData = mysqli_fetch_assoc($result);
-    $role = $userData['role'];
-}
-
-if (!$isAuthenticated) {
-    echo "<script>alert('Silahkan login terlebih dahulu.');</script>";
-    header("Location: ../index.php");
-    exit();
-}
-
-if ($role != "admin") {
-    echo "<script>alert('Akses tidak diizinkan, silahkan hubungi admin.');</script>";
-    header("Location: ../index.php");
-}
-
-
-$sqlGetUserDetail = "SELECT full_name, email, role FROM user WHERE user_id = '$userId'";
+$sqlGetUserDetail = "SELECT full_name, email, role FROM user WHERE user_id = '$userId' LIMIT 1;";
 $result = mysqli_query($conn, $sqlGetUserDetail);
 if (mysqli_num_rows($result) > 0) {
     $userData = mysqli_fetch_assoc($result);
@@ -42,7 +13,7 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 if (isset($_POST['submit'])) {
-    $fullName = $_POST['full_name'];
+    $fullName = $_POST['fullName'];
     $email = $_POST['email'];
     $role = $_POST['role'];
 
@@ -72,76 +43,40 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<div class="flex h-screen justify-center items-center">
+    <form class="flex flex-col items-center gap-5 w-3/4 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2" method="post">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
-</head>
+        <h2 class="text-4xl font-bold">Edit Pengguna</h2>
 
-<body>
+        <div class="flex flex-col gap-2 w-full">
+            <label for="fullName" class="font-bold">Name</label>
+            <input class="border h-10 px-3 rounded-md" type="text" id="fullName" name="fullName" placeholder="Masukkan nama lengkap" value="<?= $fullName ?>" required>
+        </div>
 
-    <nav>
-        <ul>
-            <li><a href="../index.php">Dashboard</a></li>
-            <?php if ($role === "admin" && $isAuthenticated) : ?>
-                <li id="adminLink"><a href="#">Admin</a></li>
-            <?php endif; ?>
+        <div class=" flex flex-col gap-2 w-full">
+            <label for="email" class="font-bold">Email</label>
+            <input class="border h-10 px-3 rounded-md" type="text" id="email" name="email" placeholder="Masukkan email" value="<?= $email ?>" required>
+        </div>
 
-        </ul>
-
-        <a href="index.php">
-            <div class="brand">Hospital</div>
-        </a>
-
-
-        <?php if ($isAuthenticated) : ?>
-            <form method="post">
-                <button type="submit" class="button_custom" name="logout">Logout</button>
-            </form>
-        <?php else : ?>
-            <form action="login.php">
-                <button type="submit" class="button_custom">Login</button>
-            </form>
-        <?php endif; ?>
-    </nav>
-
-    <div id="adminPopup" class="popup">
-        <ul>
-            <li><a href="/admin/user_list.php">Dokter</a></li>
-            <li><a href="/admin/hospital_list.php">Rumah Sakit</a></li>
-            <li><a href="/admin/user_list.php">Akun Pengguna</a></li>
-        </ul>
-    </div>
-
-    <div class="section_form_input">
-        <form class="form_custom" method="post">
-
-            <h2>Edit User</h2>
-
-            <div>
-                <label for="name">Name</label>
-                <input type="text" id="full_name" name="full_name" value="<?= $fullName ?>" required>
+        <div class="flex flex-col gap-2 w-full">
+            <label for="role" class="font-bold">Role</label>
+            <div class="flex flex-col h-auto px-3 rounded-md">
+                <div class="flex items-center">
+                    <input type="radio" id="admin" name="role" class="mr-2" value="admin" <?php echo ($role == 'admin') ? 'checked' : ''; ?> required />
+                    <label for="admin">Admin</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="radio" id="basic" name="role" class="mr-2" value="basic" <?php echo ($role == 'basic') ? 'checked' : ''; ?> required />
+                    <label for="basic">Basic</label>
+                </div>
             </div>
+        </div>
 
-            <div>
-                <label for="email">email</label>
-                <input type="text" id="email" name="email" value="<?= $email ?>" required>
-            </div>
 
-            <div>
-                <label for="role">role</label>
-                <input type="tel" id="role" name="role" value="<?= $role ?>" required>
-            </div>
+        <button class="flex justify-center items-center font-bold
+                 text-lg text-white bg-black rounded-full w-full h-10 mt-5" type="submit" name="submit" value="submit">Submit</button>
+    </form>
+</div>
 
-            <button type="submit" name="submit" class="button_custom" value="submit">Submit</button>
-        </form>
-    </div>
-</body>
-
-</html>
+<?php include('../footer.php'); ?>

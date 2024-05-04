@@ -1,5 +1,5 @@
 <?php
-require('../config.php');
+include('header_admin.php');
 
 $doctorId = $_GET['doctor_id'];
 
@@ -26,7 +26,6 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
-<?php include('header_admin.php'); ?>
 
 <div class="flex h-screen justify-center items-center">
     <form class="flex flex-col items-center gap-5 w-3/4 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2"
@@ -54,9 +53,6 @@ if (isset($_POST['submit'])) {
                  text-lg text-white bg-black rounded-full w-full h-10 mt-5" name="submit">Submit</button>
 
     </form>
-
-
 </div>
-</body>
 
-</html>
+<?php include('../footer.php'); ?>
