@@ -22,7 +22,7 @@ if (mysqli_num_rows($resultUserSession) > 0) {
 $getUserIsRelationWithUserUser = "SELECT user_id FROM rating WHERE user_id = '$userId' LIMIT 1";
 $resultUserRelation = mysqli_query($conn, $getUserIsRelationWithUserUser);
 if ($resultUserRelation && mysqli_num_rows($resultUserRelation) > 0) {
-    echo "<script>alert('Tidak dapat dihapus, data user berelasi dengan data lainnya');</script>";
+    echo "<script>alert('Tidak dapat dihapus, data user.');</script>";
     echo "<script>window.location.href='user_list.php';</script>";
     exit();
 } else {

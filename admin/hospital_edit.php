@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
     $result = mysqli_query($conn, $sqlInsertDataHospital);
     if ($result) {
         echo "<script>alert('Berhasil ubah data rumah sakit.');</script>";
-        header("Location: hospital_list.php");
+        echo "<script>window.location.href='hospital_list.php';</script>";
     }
 }
 ?>
