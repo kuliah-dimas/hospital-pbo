@@ -37,6 +37,14 @@ if (isset($_POST['submit'])) {
     return;
   }
 
+  $queryGetIsUserAlreadyExists = "SELECT email FROM user WHERE email = '$email';";
+  $result = $conn->query($queryGetIsUserAlreadyExists);
+  if ($result) {
+    echo "<script>alert('Email telah digunakan.');</script>";
+    echo "<script>window.location.href = 'register.php';</script>";
+    return;
+  }
+
   $queryInsert = "INSERT INTO user(full_name, email, password) VALUES('$name','$email','$password');";
   $result = $conn->query($queryInsert);
   if ($result) {
