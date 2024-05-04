@@ -1,19 +1,6 @@
-<svg width="1112" height="1061" viewBox="0 0 1112 1061" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g filter="url(#filter0_d_34_6)">
-<path d="M489.5 258C352.541 209.486 304.5 353.5 272.238 477.335C253.846 547.93 227.819 660.197 287.661 723.639C336.737 775.666 420.302 879.755 761.466 736.078C1102.63 592.401 980.5 333 968.756 300.071C939.156 217.073 830.183 139.358 729.5 203.5C628.94 267.564 545.474 277.827 489.5 258Z" fill="url(#pattern0_34_6)" shape-rendering="crispEdges"/>
-<path d="M489.5 258C352.541 209.486 304.5 353.5 272.238 477.335C253.846 547.93 227.819 660.197 287.661 723.639C336.737 775.666 420.302 879.755 761.466 736.078C1102.63 592.401 980.5 333 968.756 300.071C939.156 217.073 830.183 139.358 729.5 203.5C628.94 267.564 545.474 277.827 489.5 258Z" stroke="#294282" shape-rendering="crispEdges"/>
-</g>
+<svg width="750" height="630" viewBox="0 0 750 630" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<path d="M239.5 79C102.541 30.4856 54.5 174.5 22.2378 298.335C3.84587 368.93 -22.1814 481.197 37.6612 544.639C86.7372 596.666 170.302 700.755 511.466 557.078C852.631 413.401 730.5 154 718.756 121.071C689.156 38.0725 580.183 -39.6421 479.5 24.4999C378.94 88.5635 295.474 98.8273 239.5 79Z" fill="url(#pattern0_34_6)"/>
 <defs>
-<filter id="filter0_d_34_6" x="0.480225" y="-68.1638" width="1249.05" height="1129.16" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="2"/>
-<feGaussianBlur stdDeviation="125"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_34_6"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_34_6" result="shape"/>
-</filter>
 <pattern id="pattern0_34_6" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image0_34_6" transform="matrix(0.000419976 0 0 0.0005 -0.0879663 0)"/>
 </pattern>

@@ -69,7 +69,7 @@ if (isset($_POST['submit'])) {
         <ul>
             <li><a href="../index.php">Dashboard</a></li>
             <?php if ($role === "admin" && $isAuthenticated) : ?>
-                <li id="adminLink"><a href="#">Admin</a></li>
+            <li id="adminLink"><a href="#">Admin</a></li>
             <?php endif; ?>
 
         </ul>
@@ -80,13 +80,13 @@ if (isset($_POST['submit'])) {
 
 
         <?php if ($isAuthenticated) : ?>
-            <form method="post">
-                <button type="submit" class="button_custom" name="logout">Logout</button>
-            </form>
+        <form method="post">
+            <button type="submit" class="button_custom" name="logout">Logout</button>
+        </form>
         <?php else : ?>
-            <form action="login.php">
-                <button type="submit" class="button_custom">Login</button>
-            </form>
+        <form action="login.php">
+            <button type="submit" class="button_custom">Login</button>
+        </form>
         <?php endif; ?>
     </nav>
 
@@ -141,15 +141,15 @@ if (isset($_POST['submit'])) {
 
 
     <script>
-        function showAdminPopup() {
-            var popup = document.getElementById('adminPopup');
-            popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
-        }
+    function showAdminPopup() {
+        var popup = document.getElementById('adminPopup');
+        popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
+    }
 
-        document.getElementById('adminLink').addEventListener('click', function(event) {
-            event.preventDefault();
-            showAdminPopup();
-        });
+    document.getElementById('adminLink').addEventListener('click', function(event) {
+        event.preventDefault();
+        showAdminPopup();
+    });
     </script>
 </body>
 

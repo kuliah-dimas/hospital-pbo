@@ -1,28 +1,63 @@
 <?php
-require 'config.php';
-if (isset($_POST['submit'])) {
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-
-
-  $sqlQuery = "SELECT email FROM user WHERE email = '$email' AND password = '$password' LIMIT 1;";
-  $result = mysqli_query($conn, $sqlQuery);
-
-  if ($result) {
-    if (mysqli_num_rows($result) > 0) {
-      session_start();
-      $_SESSION['authenticated'] = true;
-      $_SESSION['email'] = $email;
-      echo "<script>alert('Berhasil Login.');</script>";
-      header("Location: index.php");
-      exit;
-    } else {
-      echo "<script>alert('Gagal login, silahkan login kembali.');</script>";
-    }
-  } else {
-    echo "<script>alert('Gagal menjalankan query.');</script>";
-  }
+require('config.php');
+session_start();
+$isAuthenticated = $_SESSION['authenticated'];
+if ($isAuthenticated) {
+    echo "<script>window.location.href = 'index.php';</script>";
 }
+
+function validateInputUser($email, $password)
+{
+
+    if (empty($email) || trim($email) === '') {
+        echo "<script>alert('Email is blank or contains only whitespace.');</script>";
+        return false;
+    }
+
+
+    if (empty($password) || trim($password) === '') {
+        echo "<script>alert('Password is blank or contains only whitespace.');</script>";
+        return false;
+    }
+
+    return true;
+}
+
+function setSession($email)
+{
+    session_start();
+    $_SESSION['authenticated'] = true;
+    $_SESSION['email'] = $email;
+}
+
+$submit = $_POST['submit'];
+if (isset($submit)) {
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    if (!validateInputUser($email, $password)) {
+        echo "<script>window.location.href = 'login.php';</script>";
+        return;
+    }
+
+    $queryInsert = "SELECT user_id FROM user WHERE email = '$email' AND password = '$password' LIMIT 1;";
+    $result = $conn->query($queryInsert);
+    if ($result) {
+
+        if (mysqli_num_rows($result) > 0) {
+            echo "<script>alert('Berhasil login.');</script>";
+            echo "<script>window.location.href = 'index.php';</script>";
+            setSession($email);
+        } else {
+            echo "<script>alert('Gagal login, akun tidak ditemukan.');</script>";
+            echo "<script>window.location.href = 'login.php';</script>";
+        }
+    } else {
+        echo "<script>Gagal login.</script>";
+        echo "<script>window.location.href = 'login.php';</script>";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -31,52 +66,68 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8" />
     <title>CodePen - Finance Mobile Application-UX/UI Design Screen One</title>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
 
-    <div class="body">
-        <div class="screen-1">
-            <div class="title">
-                <h1>Login</h1>
+    <?php include('header.php'); ?>
+
+    <div class="flex h-screen justify-center items-center">
+        <form class="flex flex-col items-center gap-5 w-full mx-5 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2" method="post">
+            <h1 class="text-4xl font-bold">Login</h1>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label for="email" class="font-bold">Email</label>
+                <input class="border h-10 px-3 rounded-md" type="text" name="email" placeholder="Masukkan email anda">
             </div>
 
-            <form method="POST" action="login.php">
-                <div class="textInput">
-                    <label for="email">Email Address</label>
-                    <div class="sec-2">
-                        <ion-icon name="mail-outline"></ion-icon>
-                        <input type="email" name="email" placeholder="johndoe@gmail.com" required />
-                    </div>
-                </div>
-
-                <div class="textInput">
-                    <label for="password">Password</label>
-                    <div class="sec-2">
-                        <ion-icon name="lock-closed-outline"></ion-icon>
-                        <input class="pas" type="password" name="password" placeholder="············" required />
-                        <ion-icon class="show-hide" name="eye-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <button type="submit" name="submit" class="button-submit">
-                    Submit
-                </button>
-            </form>
-
-            <div class="w-full center">
-                <span><a href="/register.php">Register</a></span>
+            <div class="flex flex-col gap-2 w-full">
+                <label for="password" class="font-bold">Password</label>
+                <input class="border h-10 px-3 rounded-md" type="password" name="password" placeholder="Masukkan password anda">
             </div>
-        </div>
+
+            <button class="flex justify-center items-center font-bold
+                 text-lg text-white bg-black rounded-full w-full h-10 mt-5" name="submit">Submit</button>
+            <div>Belum memiliki akun? <span class="text-red-400"><a href="register.php">Buat akun</a></span></div>
+
+        </form>
     </div>
+
+    <script>
+        let isHiddenMenu = false;
+        const toggleMenu = document.getElementById("toggleMenu");
+        const navbarMenu = document.getElementById("navbarMenu");
+
+        function handleWindowResize() {
+            const windowWidth = window.innerWidth;
+            if (windowWidth > 768) {
+                navbarMenu.style.display = "flex";
+                navbarMenu.classList.add("flex-row");
+            } else {
+                navbarMenu.style.display = "none";
+            }
+        }
+
+        window.addEventListener("resize", handleWindowResize);
+
+        handleWindowResize();
+
+        toggleMenu.addEventListener("click", () => {
+            isHiddenMenu = !isHiddenMenu;
+            if (isHiddenMenu) {
+                navbarMenu.style.display = "none";
+            } else {
+                navbarMenu.style.display = "flex";
+            }
+        });
+    </script>
+
+
+
+
 </body>
 
-<script src="./assets/js/script.js"></script>
 
 </html>

@@ -1,36 +1,7 @@
 <?php
 require('../config.php');
 
-session_start();
-$isAuthenticated = isset($_SESSION['authenticated']);
-$email = $_SESSION['email'];
 $doctorId = $_GET['doctor_id'];
-
-$sqlSelectUserSession = "SELECT role FROM user WHERE email = '$email' LIMIT 1";
-$result = mysqli_query($conn, $sqlSelectUserSession);
-if (!$result) {
-    $errorMsg = "Gagal mengambil data user, " . mysqli_error($conn);
-    echo "<script>alert('$errorMsg');</script>";
-    header("Location: doctor_list.php");
-    exit();
-}
-
-if (mysqli_num_rows($result) > 0) {
-    $userData = mysqli_fetch_assoc($result);
-    $role = $userData['role'];
-}
-
-if (!$isAuthenticated) {
-    echo "<script>alert('Silahkan login terlebih dahulu.');</script>";
-    header("Location: ../index.php");
-    exit();
-}
-
-if ($role != "admin") {
-    echo "<script>alert('Akses tidak diizinkan, silahkan hubungi admin.');</script>";
-    header("Location: ../index.php");
-}
-
 
 $sqlGetDoctorDetail = "SELECT name, specialization, phone FROM doctor WHERE doctor_id = '$doctorId'";
 $result = mysqli_query($conn, $sqlGetDoctorDetail);
@@ -46,87 +17,46 @@ if (isset($_POST['submit'])) {
     $specialization = $_POST['specialization'];
     $phone = $_POST['phone'];
 
-
     $sqlInsertDataDokter = "UPDATE doctor SET name='$name', specialization='$specialization', phone='$phone' WHERE doctor_id='$doctorId'";
     $result = mysqli_query($conn, $sqlInsertDataDokter);
     if ($result) {
         echo "<script>alert('Berhasil ubah data dokter.');</script>";
         header("Location: doctor_list.php");
-        // exit();
     }
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<?php include('header_admin.php'); ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<div class="flex h-screen justify-center items-center">
+    <form class="flex flex-col items-center gap-5 w-3/4 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2"
+        method="post">
+        <h1 class="text-4xl font-bold">Edit Dokter</h1>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
-</head>
+        <div class="flex flex-col gap-2 w-full">
+            <label for="name" class="font-bold">Nama</label>
+            <input class="border h-10 px-3 rounded-md" type="text" name="name" placeholder="Masukkan nama anda"
+                value="<?= $name ?>">
+        </div>
 
-<body>
+        <div class="flex flex-col gap-2 w-full">
+            <label for="specialization" class="font-bold">Spesialisasi</label>
+            <input class="border h-10 px-3 rounded-md" type="specialization" name="specialization"
+                placeholder="Masukkan spesialisasi anda" value="<?= $specialization ?>">
+        </div>
+        <div class="flex flex-col gap-2 w-full">
+            <label for="phone" class="font-bold">Nomor Telepon</label>
+            <input class="border h-10 px-3 rounded-md" type="number" name="phone"
+                placeholder="Masukkan nomor telepon anda" value="<?= $phone ?>">
+        </div>
 
-    <nav>
-        <ul>
-            <li><a href="../index.php">Dashboard</a></li>
-            <?php if ($role === "admin" && $isAuthenticated) : ?>
-                <li id="adminLink"><a href="#">Admin</a></li>
-            <?php endif; ?>
+        <button class="flex justify-center items-center font-bold
+                 text-lg text-white bg-black rounded-full w-full h-10 mt-5" name="submit">Submit</button>
 
-        </ul>
-
-        <a href="index.php">
-            <div class="brand">Hospital</div>
-        </a>
+    </form>
 
 
-        <?php if ($isAuthenticated) : ?>
-            <form method="post">
-                <button type="submit" class="button_custom" name="logout">Logout</button>
-            </form>
-        <?php else : ?>
-            <form action="login.php">
-                <button type="submit" class="button_custom">Login</button>
-            </form>
-        <?php endif; ?>
-    </nav>
-
-    <div id="adminPopup" class="popup">
-        <ul>
-            <li><a href="/admin/doctor_list.php">Dokter</a></li>
-            <li><a href="/admin/hospital_list.php">Rumah Sakit</a></li>
-            <li><a href="/admin/user_list.php">Akun Pengguna</a></li>
-        </ul>
-    </div>
-
-    <div class="section_form_input">
-        <form class="form_custom" method="post">
-
-            <h2>Edit Dokter</h2>
-
-            <div>
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" value="<?= $name ?>" required>
-            </div>
-
-            <div>
-                <label for="specialization">Specialization</label>
-                <input type="text" id="specialization" name="specialization" value="<?= $specialization ?>" required>
-            </div>
-
-            <div>
-                <label for="phone">Phone</label>
-                <input type="tel" id="phone" name="phone" value="<?= $phone ?>" required>
-            </div>
-
-            <button type="submit" name="submit" class="button_custom" value="submit">Submit</button>
-        </form>
-    </div>
+</div>
 </body>
 
 </html>
