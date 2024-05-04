@@ -1,5 +1,5 @@
 <?php
-require('../config.php');
+
 
 function getHospital($conn)
 {
@@ -16,9 +16,7 @@ $result = getHospital($conn);
         <div class="flex items-end">
             <div class="bg-[#9747ff] w-max p-3 font-bold text-white rounded-t-lg">Daftar Rumah Sakit</div>
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M0 32H32C20.7989 32 15.1984 32 10.9202 29.8201C7.15695 27.9027 4.09734 24.8431 2.17987 21.0798C0 16.8016 0 11.201 0 0V32Z"
-                    fill="#9747FF" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M0 32H32C20.7989 32 15.1984 32 10.9202 29.8201C7.15695 27.9027 4.09734 24.8431 2.17987 21.0798C0 16.8016 0 11.201 0 0V32Z" fill="#9747FF" />
             </svg>
 
         </div>
@@ -38,32 +36,29 @@ $result = getHospital($conn);
                 $count = 1;
                 while ($row = mysqli_fetch_assoc($result)) :
                 ?>
-                <tr class="text-center">
-                    <td class="border-x border-r-2"><?= $count++ ?></td>
-                    <td class="border-r border-r-2 font-bold"><?= $row["name"] ?></td>
-                    <td class="border-r border-r-2"><?= $row["phone"] ?></td>
-                    <td class="border-r border-r-2"><?= $row["email"] ?></td>
-                    <td class="border-r border-r-2 center">
-                        <div class="flex justify-center items-center ">
-                            <div
-                                class="flex justify-center items-center gap-2 bg-[#DCE4FA] rounded-md  px-2 py-1 w-min">
-                                <i class="fa fa-star text-yellow-500"></i>
-                                <div><?= $row["rating"] ?></div>
-                            </div>
+                    <tr class="text-center">
+                        <td class="border-x border-r-2"><?= $count++ ?></td>
+                        <td class="border-r border-r-2 font-bold"><?= $row["name"] ?></td>
+                        <td class="border-r border-r-2"><?= $row["phone"] ?></td>
+                        <td class="border-r border-r-2"><?= $row["email"] ?></td>
+                        <td class="border-r border-r-2 center">
+                            <div class="flex justify-center items-center ">
+                                <div class="flex justify-center items-center gap-2 bg-[#DCE4FA] rounded-md  px-2 py-1 w-min">
+                                    <i class="fa fa-star text-yellow-500"></i>
+                                    <div><?= $row["rating"] ?></div>
+                                </div>
 
-                        </div>
-                    </td>
-                    <td class="border-r border-r-2 p-2 ">
-                        <form action="/admin/hospital_edit.php?hospital_id=<?= $row["hospital_id"] ?>" method="post">
-                            <button type="submit" name="edit"
-                                class="bg-[#EEE170] w-[86px] rounded-full px-2 py-1">Edit</button>
-                        </form>
-                        <form action="/admin/hospital_delete.php?hospital_id=<?= $row["hospital_id"] ?>" method="post">
-                            <button type="submit" name="submit"
-                                class="bg-[#F56767] w-[86px] rounded-full px-2 py-1 mt-2">Delete</button>
-                        </form>
-                    </td>
-                </tr>
+                            </div>
+                        </td>
+                        <td class="border-r border-r-2 p-2 ">
+                            <form action="/admin/hospital_edit.php?hospital_id=<?= $row["hospital_id"] ?>" method="post">
+                                <button type="submit" name="edit" class="bg-[#EEE170] w-[86px] rounded-full px-2 py-1">Edit</button>
+                            </form>
+                            <form action="/admin/hospital_delete.php?hospital_id=<?= $row["hospital_id"] ?>" method="post">
+                                <button type="submit" name="submit" class="bg-[#F56767] w-[86px] rounded-full px-2 py-1 mt-2">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
 
                 <?php endwhile; ?>
 
