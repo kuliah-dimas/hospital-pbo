@@ -6,11 +6,13 @@ if (isset($_POST['submit'])) {
     $address = $_POST['address'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
+    $image = $_POST['image'];
     $website = $_POST['website'];
     $description = $_POST['description'];
 
 
-    $queryInsertHospital = "INSERT INTO hospital (name, address, phone, email, website, description) VALUES ('$name', '$address','$phone', '$email', '$website', '$description');";
+    $queryInsertHospital = "INSERT INTO hospital (name, address, phone, email, image, website, description) 
+    VALUES ('$name', '$address','$phone', '$email', '$image', '$website', '$description');";
     $result = mysqli_query($conn, $queryInsertHospital);
     if ($result) {
         echo "<script>alert('Berhasil tambah Rumah Sakit.');</script>";
@@ -27,17 +29,17 @@ if (isset($_POST['submit'])) {
 
         <div class="flex flex-col gap-2 w-full">
             <label for="name" class="font-bold">Nama</label>
-            <input class="border h-10 p-3 rounded-md" type="text" id="name" name="name" placeholder="Masukkan nama rumah sakit" required />
+            <input class="border h-10 p-3 rounded-md" type="text" id="name" name="name" placeholder="Masukkan nama" required />
         </div>
 
         <div class="flex flex-col gap-2 w-full">
             <label for="address" class="font-bold">Alamat</label>
-            <input class="border h-10 p-3 rounded-md" type="text" id="address" name="address" placeholder="Masukkan alamat rumah sakit" required />
+            <input class="border h-10 p-3 rounded-md" type="text" id="address" name="address" placeholder="Masukkan alamat" required />
         </div>
 
         <div class="flex flex-col gap-2 w-full">
             <label for="phone" class="font-bold">Nomor Telepon</label>
-            <input class="border h-10 p-3 rounded-md" type="text" id="phone" name="phone" placeholder="Masukkan nomor telepon rumah sakit" required />
+            <input class="border h-10 p-3 rounded-md" type="text" id="phone" name="phone" placeholder="Masukkan nomor telepon" required />
         </div>
 
         <div class="flex flex-col gap-2 w-full">
@@ -46,13 +48,18 @@ if (isset($_POST['submit'])) {
         </div>
 
         <div class="flex flex-col gap-2 w-full">
+            <label for="image" class="font-bold">URL Gambar</label>
+            <input class="border h-10 p-3 rounded-md" type="text" name="image" placeholder="Masukkan gambar" value="<?= $image ?>">
+        </div>
+
+        <div class="flex flex-col gap-2 w-full">
             <label for="website" class="font-bold">Website</label>
-            <input class="border h-10 p-3 rounded-md" type="text" id="website" name="website" placeholder="Masukkan website rumah sakit" required />
+            <input class="border h-10 p-3 rounded-md" type="text" id="website" name="website" placeholder="Masukkan website" required />
         </div>
 
         <div class="flex flex-col gap-2 w-full">
             <label for="description" class="font-bold">Keterangan</label>
-            <textarea class="border h-36 p-3 rounded-md" type="text" name="description" id="description" placeholder="Masukan keterangan rumah sakit"></textarea>
+            <textarea class="border h-36 p-3 rounded-md" type="text" name="description" id="description" placeholder="Masukan keterangan"></textarea>
         </div>
 
         <button class="flex justify-center items-center font-bold text-lg text-white bg-black rounded-full w-full h-10 mt-5" type="submit" name="submit" value="submit">

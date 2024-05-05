@@ -3,7 +3,7 @@ include('header_admin.php');
 
 $hospitalId = $_GET['hospital_id'];
 
-$queryGetHospitalDetail = "SELECT name, address, phone, email, website, description, rating, num_ratings FROM hospital WHERE hospital_id = '$hospitalId'";
+$queryGetHospitalDetail = "SELECT name, address, phone, email, image, website, description, rating, num_ratings FROM hospital WHERE hospital_id = '$hospitalId'";
 $result = mysqli_query($conn, $queryGetHospitalDetail);
 if (mysqli_num_rows($result) > 0) {
     $hospitalData = mysqli_fetch_assoc($result);
@@ -11,6 +11,7 @@ if (mysqli_num_rows($result) > 0) {
     $address = $hospitalData['address'];
     $phone = $hospitalData['phone'];
     $email = $hospitalData['email'];
+    $image = $hospitalData['image'];
     $website = $hospitalData['website'];
     $description = $hospitalData['description'];
 }
@@ -20,11 +21,12 @@ if (isset($_POST['submit'])) {
     $address = $_POST['address'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
+    $image = $_POST['image'];
     $website = $_POST['website'];
     $description = $_POST['description'];
 
     $sqlInsertDataHospital = "UPDATE hospital
-    SET name='$name', address='$address', phone='$phone', email='$email', website='$website', description='$description'
+    SET name='$name', address='$address', phone='$phone', email='$email', image='$image', website='$website', description='$description'
     WHERE hospital_id='$hospitalId'";
 
     $result = mysqli_query($conn, $sqlInsertDataHospital);
@@ -42,27 +44,32 @@ if (isset($_POST['submit'])) {
 
         <div class="flex flex-col gap-2 w-full">
             <label for="name" class="font-bold">Nama</label>
-            <input class="border h-10 p-3 rounded-md" type="text" name="name" placeholder="Masukkan nama anda" value="<?= $name ?>">
+            <input class="border h-10 p-3 rounded-md" type="text" name="name" placeholder="Masukkan nama" value="<?= $name ?>">
         </div>
 
         <div class="flex flex-col gap-2 w-full">
             <label for="address" class="font-bold">Alamat</label>
-            <input class="border h-10 p-3 rounded-md" type="address" name="address" placeholder="Masukkan alamat anda" value="<?= $address ?>">
+            <input class="border h-10 p-3 rounded-md" type="address" name="address" placeholder="Masukkan alamat" value="<?= $address ?>">
         </div>
 
         <div class="flex flex-col gap-2 w-full">
             <label for="phone" class="font-bold">Nomor Telepon</label>
-            <input class="border h-10 p-3 rounded-md" type="phone" name="phone" placeholder="Masukkan nomor telepon anda" value="<?= $phone ?>">
+            <input class="border h-10 p-3 rounded-md" type="phone" name="phone" placeholder="Masukkan nomor telepon" value="<?= $phone ?>">
         </div>
 
         <div class="flex flex-col gap-2 w-full">
             <label for="email" class="font-bold">Email</label>
-            <input class="border h-10 p-3 rounded-md" type="email" name="email" placeholder="Masukkan email anda" value="<?= $email ?>">
+            <input class="border h-10 p-3 rounded-md" type="email" name="email" placeholder="Masukkan email" value="<?= $email ?>">
+        </div>
+
+        <div class="flex flex-col gap-2 w-full">
+            <label for="image" class="font-bold">URL Gambar</label>
+            <input class="border h-10 p-3 rounded-md" type="text" name="image" placeholder="Masukkan gambar" value="<?= $image ?>">
         </div>
 
         <div class="flex flex-col gap-2 w-full">
             <label for="website" class="font-bold">Website</label>
-            <input class="border h-10 p-3 rounded-md" type="website" name="website" placeholder="Masukkan website anda" value="<?= $website ?>">
+            <input class="border h-10 p-3 rounded-md" type="website" name="website" placeholder="Masukkan website" value="<?= $website ?>">
         </div>
 
         <div class="flex flex-col gap-2 w-full">
