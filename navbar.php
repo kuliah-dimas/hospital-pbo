@@ -1,13 +1,15 @@
 <?php
 session_start();
 
-$isAuthenticated = $_SESSION['authenticated'];
-$email = $_SESSION['email'];
+$isAuthenticated = $_SESSION['authenticated'] ?? false;
+$email = $_SESSION['email'] ?? '';
 
-if (isset($email)) {
+if (!empty($email)) {
     $userInfo = getUserInfo($conn, $email);
-    $role = $userInfo['role'];
-    $userId = $userInfo['user_id'];
+    if ($userInfo) {
+        $role = $userInfo['role'];
+        $userId = $userInfo['user_id'];
+    }
 }
 
 function getUserInfo($conn, $email)
