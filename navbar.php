@@ -3,12 +3,23 @@ session_start();
 
 $isAuthenticated = $_SESSION['authenticated'] ?? false;
 $email = $_SESSION['email'] ?? '';
+$requestUri = $_SERVER['REQUEST_URI'];
 
-if (!empty($email)) {
+if ($isAuthenticated && !empty($email)) {
     $userInfo = getUserInfo($conn, $email);
     if ($userInfo) {
         $role = $userInfo['role'];
         $userId = $userInfo['user_id'];
+    }
+
+    if (strpos($requestUri, '/admin/') === 0 && $role != "admin") {
+        header("Location: ../login.php");
+        exit;
+    }
+
+    if ($requestUri == "/register.php" || $requestUri == "/login.php") {
+        header("Location: index.php");
+        exit;
     }
 }
 
@@ -23,9 +34,10 @@ function getUserInfo($conn, $email)
 if (isset($_POST['logout'])) {
     session_unset();
     session_destroy();
-    header("Location: index.php");
+    header("Location: /login.php");
     exit;
 }
+
 
 ?>
 
