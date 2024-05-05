@@ -12,7 +12,7 @@ $result = getDoctor($conn);
 
 
 <div class="flex flex-col justify-center items-center pt-28 mb-20">
-    <div class=" w-3/4">
+    <div class="w-full px-5 md:w-3/4">
         <div class="flex items-end">
             <div class="bg-[#9747ff] w-max p-3 font-bold text-white rounded-t-lg">Daftar Dokter</div>
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,41 +20,43 @@ $result = getDoctor($conn);
             </svg>
 
         </div>
-        <table class="bg-white w-full border-b-2 table-auto border-collapse rounded-tr-lg rounded-b-lg">
-            <thead class="h-16 text-white ">
-                <tr class="bg-[#9747ff]">
-                    <th>#</th>
-                    <th>Nama</th>
-                    <th>Spesialisasi</th>
-                    <th>Phone</th>
-                    <th class="rounded-tr-lg">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $count = 1;
-                while ($doctor = mysqli_fetch_assoc($result)) :
-                ?>
-                    <tr class="text-center">
-                        <td class="border-x border-r-2"><?= $count++ ?></td>
-                        <td class="border-r border-r-2 font-bold"><?= $doctor["name"] ?></td>
-                        <td class="border-r border-r-2"><?= $doctor["specialization"] ?></td>
-                        <td class="border-r border-r-2"><?= $doctor["phone"] ?></td>
-                        <td class="border-r border-r-2 p-2 ">
-                            <form action="/admin/doctor_edit.php?doctor_id=<?= $doctor["doctor_id"] ?>" method="post">
-                                <button type="submit" name="edit" class="bg-[#EEE170] w-[86px] rounded-full px-2 py-1">Edit</button>
-                            </form>
-                            <form action="/admin/doctor_delete.php?doctor_id=<?= $doctor["doctor_id"] ?>" method="post">
-                                <button type="submit" name="submit" class="bg-[#F56767] w-[86px] rounded-full px-2 py-1 mt-2">Delete</button>
-                            </form>
-                        </td>
+        <div class="overflow-x-auto">
+            <table class="bg-white w-full table-auto border-collapse rounded-tr-lg rounded-b-xl">
+                <thead class="h-16 text-white ">
+                    <tr class="bg-[#9747ff]  rounded-tr-lg">
+                        <th>#</th>
+                        <th>Nama</th>
+                        <th>Spesialisasi</th>
+                        <th>Phone</th>
+                        <th class="rounded-tr-lg">Action</th>
                     </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $count = 1;
+                    while ($doctor = mysqli_fetch_assoc($result)) :
+                    ?>
+                        <tr class="text-center">
+                            <td class="border-r border-r-2 px-2 px-2"><?= $count++ ?></td>
+                            <td class="border-r border-r-2 px-2 font-bold"><?= $doctor["name"] ?></td>
+                            <td class="border-r border-r-2 px-2"><?= $doctor["specialization"] ?></td>
+                            <td class="border-r border-r-2 px-2"><?= $doctor["phone"] ?></td>
+                            <td class="p-3">
+                                <form action="/admin/doctor_edit.php?doctor_id=<?= $doctor["doctor_id"] ?>" method="post">
+                                    <button type="submit" name="edit" class="bg-[#EEE170] w-[86px] rounded-full px-2 py-1">Edit</button>
+                                </form>
+                                <form action="/admin/doctor_delete.php?doctor_id=<?= $doctor["doctor_id"] ?>" method="post">
+                                    <button type="submit" name="submit" class="bg-[#F56767] w-[86px] rounded-full px-2 py-1 mt-2">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
 
-                <?php endwhile; ?>
+                    <?php endwhile; ?>
 
-            </tbody>
-        </table>
+                </tbody>
+
+
+        </div>
     </div>
 </div>
-
 <?php include('footer_admin.php') ?>

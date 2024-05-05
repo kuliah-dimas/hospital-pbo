@@ -1,5 +1,5 @@
 <?php
-require('config.php');
+include('header.php');
 session_start();
 
 function validateInputUser($email, $password)
@@ -54,10 +54,9 @@ if (isset($submit)) {
 
 ?>
 
+<?php  ?>
 
-<?php include('header.php'); ?>
-
-<div class="flex h-screen justify-center items-center">
+<div class="flex justify-center items-center pt-28 mb-10 w-full px-5">
     <form class="flex flex-col items-center gap-5 w-full mx-5 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2" method="post">
         <h1 class="text-4xl font-bold">Login</h1>
 

@@ -1,20 +1,18 @@
 <?php
-
 session_start();
 
-if (isset($_SESSION['authenticated'])) {
-    $isAuthenticated = $_SESSION['authenticated'];
-}
+$isAuthenticated = $_SESSION['authenticated'];
+$email = $_SESSION['email'];
 
-if (isset($_SESSION['email'])) {
-    $email = $_SESSION['email'];
+if (isset($email)) {
     $userInfo = getUserInfo($conn, $email);
     $role = $userInfo['role'];
+    $userId = $userInfo['user_id'];
 }
 
 function getUserInfo($conn, $email)
 {
-    $getUserDetail = "SELECT full_name, email, role FROM user WHERE email = '$email'";
+    $getUserDetail = "SELECT user_id, full_name, email, role FROM user WHERE email = '$email'";
     $result = $conn->query($getUserDetail);
     $userInfo = mysqli_fetch_assoc($result);
     return $userInfo;
@@ -29,7 +27,7 @@ if (isset($_POST['logout'])) {
 
 ?>
 
-<nav id="navBar" class="flex flex fixed items-start w-full justify-between px-10 py-5 backdrop-blur-md bg-white/35">
+<nav id="navBar" class="z-10 flex flex fixed z-100 items-start w-full justify-between px-10 py-5 backdrop-blur-md bg-white/35">
     <a href="index.php">
         <div class="brand flex items-center gap-3">
             <img class="h-10 w-10" src="/assets/img/svg/brand_logo.svg" alt="Brand">
