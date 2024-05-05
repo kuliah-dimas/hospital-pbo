@@ -33,7 +33,7 @@ if (isset($_POST['logout'])) {
 <nav id="navBar" class="flex flex fixed items-start w-full justify-between px-10 py-5 backdrop-blur-md bg-white/35">
     <a href="#">
         <div class="brand flex items-center gap-3">
-            <img class="h-10 w-10" src="/assets/img/svg/brand_logo.svg" alt="Brand">
+            <img class="h-10 w-10" src="assets/img/svg/brand_logo.svg" alt="Brand">
             <h1 class="text-2xl font-bold">HOSPITAL</h1>
         </div>
     </a>

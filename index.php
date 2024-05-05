@@ -10,12 +10,12 @@
         <a href="hospital_list.php" class="w-min">
             <div class="flex items-center gap-5 bg-[#294282] w-max px-7 py-2 rounded-full">
                 <p class="font-bold text-white">Cari Rumah Sakit</p>
-                <img src="/assets/img/svg/arrow.svg" alt="Arrow">
+                <img src="assets/img/svg/arrow.svg" alt="Arrow">
             </div>
         </a>
     </div>
     <div class="sm:m-10 md:m-0">
-        <img src="/assets/img/svg/vector_doctor.svg" alt="Doctor">
+        <img src="assets/img/svg/vector_doctor.svg" alt="Doctor">
     </div>
 </section>
 
