@@ -1,12 +1,9 @@
 <?php
 include('header_admin.php');
+require_once('../models/User.php');
 
-function getUser($conn)
-{
-    $queryGetUser = "SELECT * FROM user";
-    return $conn->query($queryGetUser);
-}
-$result = getUser($conn);
+$user = new User($conn);
+$result = $user->getAllUser();
 
 ?>
 
@@ -39,7 +36,7 @@ $result = getUser($conn);
                     <?php else : ?>
                         <?php
                         $count = 1;
-                        while ($row = mysqli_fetch_assoc($result)) :
+                        while ($row = $result->fetch_assoc()) :
                         ?>
                             <tr class="text-center">
                                 <td class="border-r border-r-2 px-2 px-2"><?= $count++ ?></td>

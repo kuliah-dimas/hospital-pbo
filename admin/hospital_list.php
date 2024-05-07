@@ -1,12 +1,9 @@
 <?php
 include('header_admin.php');
+require_once('../models/Hospital.php');
 
-function getHospital($conn)
-{
-    $queryGetHospital = "SELECT * FROM hospital";
-    return $conn->query($queryGetHospital);
-}
-$result = getHospital($conn);
+$hospital = new Hospital($conn);
+$result = $hospital->getAllHospital();
 
 ?>
 
@@ -39,7 +36,7 @@ $result = getHospital($conn);
                     <?php else : ?>
                         <?php
                         $count = 1;
-                        while ($row = mysqli_fetch_assoc($result)) :
+                        while ($row = $result->fetch_assoc()) :
                         ?>
                             <tr class="text-center">
                                 <td class="border-r border-r-2 px-2"><?= $count++ ?></td>

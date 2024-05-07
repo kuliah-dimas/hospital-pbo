@@ -1,16 +1,18 @@
 <?php
-
+require_once('../models/User.php');
 session_start();
+
+$user = new User($conn);
+
 
 $isAuthenticated = $_SESSION['authenticated'] ?? false;
 if (!$isAuthenticated) {
     header("Location: ../login.php");
 }
 
-$email = $_SESSION['email'] ?? '';
-if (isset($email)) {
-    $email = $_SESSION['email'];
-    $userInfo = getUserInfo($conn, $email);
+$emailSession = $_SESSION['email'] ?? '';
+if (isset($emailSession)) {
+    $userInfo = $user->getUserDetailByEmail($emailSession)->fetch_assoc();
     $role =  $userInfo["role"];
 
     if ($role != "admin") {
@@ -19,23 +21,15 @@ if (isset($email)) {
     }
 }
 
-function getUserInfo($conn, $email)
-{
-    $getUserDetail = "SELECT full_name, email, role FROM user WHERE email = '$email'";
-    $result = $conn->query($getUserDetail);
-    return mysqli_fetch_assoc($result);
-}
 
 if (isset($_POST['logout'])) {
-    session_unset();
-    session_destroy();
-    header("Location: ../index.php");
+    $user->logout();
     exit;
 }
 
 ?>
-
-<nav id="navBar" class="flex flex fixed items-start w-full justify-between px-10 py-5 backdrop-blur-md bg-white/35">
+<!-- backdrop-blur-md -->
+<nav id="navBar" class="flex flex fixed items-start w-full justify-between px-10 py-5  bg-white/35">
     <a href="#">
         <div class="brand flex items-center gap-3">
             <img class="h-10 w-10" src="../assets/img/svg/brand_logo.svg" alt="Brand">
@@ -54,7 +48,8 @@ if (isset($_POST['logout'])) {
             <li class="relative">
                 <a href="#">Rumah Sakit <i class="fas fa-angle-down"></i></a>
                 <ul class="absolute hidden bg-white rounded-md shadow-md text-xs w-max">
-                    <li><a href="hospital_list.php" class="block px-4 py-4 hover:bg-gray-100">Daftar Rumah Sakit</a></li>
+                    <li><a href="hospital_list.php" class="block px-4 py-4 hover:bg-gray-100">Daftar Rumah Sakit</a>
+                    </li>
                     <li><a href="hospital_add.php" class="block px-4 py-4 hover:bg-gray-100">Tambah Rumah Sakit</a></li>
                 </ul>
             </li>
@@ -72,6 +67,10 @@ if (isset($_POST['logout'])) {
                     <li><a href="user_add.php" class="block px-4 py-4 hover:bg-gray-100">Tambah Pengguna</a></li>
                 </ul>
             </li>
+
+            <li><a href="message_list.php">Pesan</a></li>
+
+
             <?php if ($isAuthenticated) : ?>
                 <li>
                     <a class="bg-black rounded rounded-full text-white px-5 py-2" href="../index.php">User</a>

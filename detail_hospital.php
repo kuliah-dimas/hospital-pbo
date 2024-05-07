@@ -8,7 +8,7 @@ $hospitalId = $_GET['hospital_id'];
 $hospital = new Hospital($conn);
 
 $resultDetailHospital = $hospital->getDetailHospital($hospitalId);
-while ($row = mysqli_fetch_assoc($resultDetailHospital)) {
+while ($row = $resultDetailHospital->fetch_assoc()) {
     $hospitalName = $row["name"];
     $address = $row["address"];
     $phone = $row["phone"];
@@ -27,15 +27,14 @@ if (isset($_POST['submit'])) {
     $rate = $_POST['rate'];
     $comment = $_POST['comment'];
 
-    $queryInsertRatingHospital =
-        "INSERT INTO rating(hospital_id, user_id, rating_value, comment) 
-    VALUES('$hospitalId', '$userId', '$rate', '$comment');";
-
-    $resultInsert = $conn->query($queryInsertRatingHospital);
-    if ($resultInsert) {
+    $result = $hospital->insertRatingHospital($hospitalId, $userId, $rate, $comment);
+    if ($result) {
         echo "<script>alert('Berhasil memberikan rating.');</script>";
-        echo "<script>window.location.href = 'detail_hospital.php?hospital_id=$hospitalId';</script>";
+    } else {
+        echo "<script>alert('Gagal memberikan rating.');</script>";
     }
+
+    echo "<script>window.location.href = 'detail_hospital.php?hospital_id=$hospitalId';</script>";
 }
 
 ?>
@@ -97,7 +96,7 @@ if (isset($_POST['submit'])) {
                             </thead>
                             <?php
                             $count = 1;
-                            while ($row = mysqli_fetch_assoc($resultDoctorAtHospital)) :
+                            while ($row = $resultDoctorAtHospital->fetch_assoc()) :
                             ?>
                                 <tr class="text-center ">
                                     <td class="border-r border-r-2 p-3"><?= $count++ ?></td>
@@ -114,7 +113,7 @@ if (isset($_POST['submit'])) {
             <section class="rating w-full mb-20  p-5 bg-white rounded-lg border-2">
                 <div class="font-bold text-3xl text-[#294282]">Penilaian Rumah Sakit</div>
                 <?php
-                while ($row = mysqli_fetch_assoc($resultGetRating)) :
+                while ($row = $resultGetRating->fetch_assoc()) :
                 ?>
                     <div class=" bg-[#F5F5F5]/50 p-4 mt-5 rounded-md border-2">
                         <div class="flex items-center gap-4">

@@ -1,12 +1,9 @@
 <?php
 include('header_admin.php');
+require_once('../models/Doctor.php');
 
-function getDoctor($conn)
-{
-    $queryGetDoctor = "SELECT * FROM doctor";
-    return $conn->query($queryGetDoctor);
-}
-$result = getDoctor($conn);
+$doctor = new Doctor($conn);
+$result  = $doctor->getAllDoctor();
 
 ?>
 
@@ -39,7 +36,7 @@ $result = getDoctor($conn);
                     <?php else : ?>
                         <?php
                         $count = 1;
-                        while ($doctor = mysqli_fetch_assoc($result)) :
+                        while ($doctor = $result->fetch_assoc()) :
                         ?>
                             <tr class="text-center">
                                 <td class="border-r border-r-2 px-2 px-2"><?= $count++ ?></td>

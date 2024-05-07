@@ -1,4 +1,7 @@
 <?php include('header_admin.php');
+require_once('../models/Hospital.php');
+
+$hospital = new Hospital($conn);
 
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
@@ -9,10 +12,7 @@ if (isset($_POST['submit'])) {
     $website = $_POST['website'];
     $description = $_POST['description'];
 
-
-    $queryInsertHospital = "INSERT INTO hospital (name, address, phone, email, image, website, description)
-    VALUES ('$name', '$address','$phone', '$email', '$image', '$website', '$description');";
-    $result = mysqli_query($conn, $queryInsertHospital);
+    $result = $hospital->insertHospital($name, $address, $phone, $email, $image, $website, $description);
     if ($result) {
         echo "<script>alert('Berhasil tambah Rumah Sakit.');</script>";
         echo "<script>window.location.href = 'hospital_list.php';</script>";

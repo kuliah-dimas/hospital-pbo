@@ -10,18 +10,21 @@ class Hospital
         $this->conn = $conn;
     }
 
+    private function exec($query)
+    {
+        return $this->conn->query($query);
+    }
+
     function getDetailHospital($hospitalId)
     {
         $query = "SELECT * FROM hospital WHERE hospital_id = $hospitalId";
-        $result = $this->conn->query($query);
-        return $result;
+        return $this->exec($query);
     }
 
-    function getAllHospital($conn)
+    function getAllHospital()
     {
         $query = "SELECT * FROM hospital;";
-        $results = $this->conn->query($query);
-        return $results;
+        return $this->exec($query);
     }
 
     function getRatingHospital($hospitalId)
@@ -31,8 +34,7 @@ class Hospital
         JOIN user u ON r.user_id = u.user_id
         WHERE r.hospital_id = '$hospitalId'
         ORDER BY r.created_at ASC";
-        $result = $this->conn->query($query);
-        return $result;
+        return $this->exec($query);
     }
 
     function getDoctorHospital($hospitalId)
@@ -53,7 +55,35 @@ class Hospital
             h.hospital_id = '$hospitalId';
             ";
 
-        $results = $this->conn->query($query);
-        return $results;
+        return $this->exec($query);
+    }
+
+    function insertRatingHospital($hospitalId, $userId, $rate, $comment)
+    {
+        $query = "INSERT INTO rating(hospital_id, user_id, rating_value, comment) VALUES('$hospitalId', '$userId', '$rate', '$comment');";
+        $result =  $this->exec($query);
+        return $result ? true : false;
+    }
+
+    function insertHospital($name, $address, $phone, $email, $image, $website, $description)
+    {
+        $query = "INSERT INTO hospital (name, address, phone, email, image, website, description)
+    VALUES ('$name', '$address', '$phone', '$email', '$image', '$website', '$description')";
+        return $this->exec($query);
+    }
+
+    function updateHospital($hospitalId, $name, $address, $phone, $email, $image, $website, $description)
+    {
+        $query = "UPDATE hospital
+              SET name='$name', address='$address', phone='$phone', email='$email', image='$image', website='$website', description='$description'
+              WHERE hospital_id='$hospitalId'";
+        return $this->exec($query);
+    }
+
+
+    function deleteHospital($hospitalId)
+    {
+        $query = "DELETE FROM hospital WHERE hospital_id = '$hospitalId'";
+        return $this->exec($query);
     }
 }

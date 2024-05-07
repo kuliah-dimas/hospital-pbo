@@ -1,12 +1,15 @@
 <?php
 session_start();
+require_once('models/User.php');
 
 $isAuthenticated = $_SESSION['authenticated'] ?? false;
 $email = $_SESSION['email'] ?? '';
 $requestUri = $_SERVER['REQUEST_URI'];
 
+$user = new User($conn);
 if ($isAuthenticated && !empty($email)) {
-    $userInfo = getUserInfo($conn, $email);
+    $result = $user->getUserDetailByEmail($email);
+    $userInfo = $result->fetch_assoc();
     if ($userInfo) {
         $role = $userInfo['role'];
         $userId = $userInfo['user_id'];
@@ -23,17 +26,9 @@ if ($isAuthenticated && !empty($email)) {
     }
 }
 
-function getUserInfo($conn, $email)
-{
-    $getUserDetail = "SELECT user_id, full_name, email, role FROM user WHERE email = '$email'";
-    $result = $conn->query($getUserDetail);
-    return mysqli_fetch_assoc($result);
-}
 
 if (isset($_POST['logout'])) {
-    session_unset();
-    session_destroy();
-    header("Location: /login.php");
+    $user->logout();
     exit;
 }
 

@@ -1,5 +1,6 @@
 <?php
 include('header_admin.php');
+require_once('../models/Hospital.php');
 
 $hospitalId = $_GET['hospital_id'];
 if (!isset($hospitalId)) {
@@ -7,10 +8,11 @@ if (!isset($hospitalId)) {
     exit;
 }
 
-$queryGetHospitalDetail = "SELECT name, address, phone, email, image, website, description, rating, num_ratings FROM hospital WHERE hospital_id = '$hospitalId'";
-$result = mysqli_query($conn, $queryGetHospitalDetail);
+$hospital = new Hospital($conn);
+
+$result = $hospital->getDetailHospital($hospitalId);
 if (mysqli_num_rows($result) > 0) {
-    $hospitalData = mysqli_fetch_assoc($result);
+    $hospitalData = $result->fetch_assoc();
     $name = $hospitalData['name'];
     $address = $hospitalData['address'];
     $phone = $hospitalData['phone'];
@@ -31,11 +33,7 @@ if (isset($_POST['submit'])) {
     $website = $_POST['website'];
     $description = $_POST['description'];
 
-    $sqlInsertDataHospital = "UPDATE hospital
-    SET name='$name', address='$address', phone='$phone', email='$email', image='$image', website='$website', description='$description'
-    WHERE hospital_id='$hospitalId'";
-
-    $result = mysqli_query($conn, $sqlInsertDataHospital);
+    $result =  $hospital->updateHospital($hospitalId, $name, $address, $phone, $email, $image, $website, $description);
     if ($result) {
         echo "<script>alert('Berhasil ubah data rumah sakit.');</script>";
         echo "<script>window.location.href='hospital_list.php';</script>";

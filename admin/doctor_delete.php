@@ -1,41 +1,49 @@
 <?php
-require('../config.php');
+require_once('../config.php');
+require_once('../models/User.php');
+require_once('../models/Doctor.php');
+require_once('../models/HospitalDoctor.php');
 
+// Inisialisasi objek User, HospitalDoctor, dan Doctor
+$user = new User($conn);
+$hospitalDoctor = new HospitalDoctor($conn);
+$doctor = new Doctor($conn);
+
+// Memulai sesi
 session_start();
 $isAuthenticated = isset($_SESSION['authenticated']);
 $email = $_SESSION['email'];
 $doctorId = $_GET['doctor_id'];
 
-$sqlSelectUserSession = "SELECT role FROM user WHERE email = '$email' LIMIT 1";
-$resultUserSession = mysqli_query($conn, $sqlSelectUserSession);
+// Mendapatkan detail pengguna berdasarkan email
+$resultUserSession = $user->getUserDetailByEmail($email);
+
+// Mengambil peran (role) pengguna jika sesi pengguna berhasil didapatkan
 if (!$resultUserSession) {
     $errorMsg = "Gagal mengambil data user, " . mysqli_error($conn);
     echo "<script>alert('$errorMsg');</script>";
     header("Location: doctor_list.php");
     exit();
-}
-if (mysqli_num_rows($resultUserSession) > 0) {
-    $userData = mysqli_fetch_assoc($resultUserSession);
+} else if (mysqli_num_rows($resultUserSession) > 0) {
+    $userData = $resultUserSession->fetch_assoc();
     $role = $userData['role'];
 }
 
-$getDoctorIsRelationWithHospitalDoctor = "SELECT doctor_id FROM doctor_hospital WHERE doctor_id = '$doctorId' LIMIT 1";
-$resultDoctorRelation = mysqli_query($conn, $getDoctorIsRelationWithHospitalDoctor);
+// Memeriksa hubungan dokter sebelum menghapus
+$resultDoctorRelation = $hospitalDoctor->checkDoctorRelation($doctorId);
 if ($resultDoctorRelation && mysqli_num_rows($resultDoctorRelation) > 0) {
     echo "<script>alert('Gagal menghapus data dokter.');</script>";
     echo "<script>window.location.href='doctor_list.php';</script>";
     exit();
 } else {
-    $sqlDeleteDoctor = "DELETE FROM doctor WHERE doctor_id = $doctorId";
-    $resultDeleteDoctor = mysqli_query($conn, $sqlDeleteDoctor);
-    if ($resultDeleteDoctor) {
+    // Menghapus data dokter dari database
+    $result = $doctor->deleteDoctor($doctorId);
+    if ($result) {
         echo "<script>alert('Berhasil hapus data dokter');</script>";
-        echo "<script>window.location.href='doctor_list.php';</script>";
-        exit();
     } else {
         $errorMsg = "Gagal menghapus data dokter, " . mysqli_error($conn);
         echo "<script>alert('$errorMsg');</script>";
-        echo "<script>window.location.href='doctor_list.php';</script>";
-        exit();
     }
+    echo "<script>window.location.href='doctor_list.php';</script>";
+    exit();
 }

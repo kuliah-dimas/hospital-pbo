@@ -17,7 +17,6 @@ function validateInputUser($email, $password)
 
 function setSession($email)
 {
-    session_start();
     $_SESSION['authenticated'] = true;
     $_SESSION['email'] = $email;
 }

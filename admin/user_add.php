@@ -8,17 +8,17 @@ if (isset($_POST['submit'])) {
     $role = $_POST['role'];
 
 
-    $sqlSelectEmailIsAlreadyExists = "SELECT user_id FROM user WHERE email = '$email';";
-    $resultEmailIsExists = mysqli_query($conn, $sqlSelectEmailIsAlreadyExists);
-    if (mysqli_num_rows($resultEmailIsExists) > 0) {
+    $user = new User($conn);
+
+    $isEmailAlreadyExits = $user->getUserDetailByEmail($email);
+    if (mysqli_num_rows($isEmailAlreadyExits) > 0) {
         echo "<script>alert('Email telah digunakan.');</script>";
         echo "<script>window.location.href='user_list.php';</script>";
         return;
     }
 
-    $sqlInsertData = "INSERT INTO user (full_name, email, password, role) VALUES ('$fullName', '$email', '$password', '$role');";
-    $result = mysqli_query($conn, $sqlInsertData);
-    if ($result) {
+    $isSuccessCreateUser = $user->insertUser($fullName, $email, $password, $role);
+    if ($isSuccessCreateUser) {
         echo "<script>alert('Berhasil tambah Pengguna.');</script>";
         echo "<script>window.location.href='user_list.php';</script>";
         exit();
