@@ -1,11 +1,13 @@
 <?php
 
 include('header.php');
+require_once('./models/Hospital.php');
 
 $hospitalId = $_GET['hospital_id'];
 
-$queryGetDetailHospital = "SELECT * FROM hospital WHERE hospital_id = $hospitalId";
-$resultDetailHospital = $conn->query($queryGetDetailHospital);
+$hospital = new Hospital($conn);
+
+$resultDetailHospital = $hospital->getDetailHospital($hospitalId);
 while ($row = mysqli_fetch_assoc($resultDetailHospital)) {
     $hospitalName = $row["name"];
     $address = $row["address"];
@@ -17,31 +19,8 @@ while ($row = mysqli_fetch_assoc($resultDetailHospital)) {
     $rating = $row["rating"];
 }
 
-$queryGetDoctorAtHospital = "
-SELECT
-    d.doctor_id as doctor_id,
-    d.name AS doctor_name,
-    d.specialization as specialization,
-    d.phone as phone,
-    h.hospital_id,
-    h.name AS hospital_name
-FROM
-    doctor d
-    INNER JOIN doctor_hospital dh ON d.doctor_id = dh.doctor_id
-    INNER JOIN hospital h ON dh.hospital_id = h.hospital_id
-WHERE
-h.hospital_id = '$hospitalId';";
-
-$resultDoctorAtHospital = $conn->query($queryGetDoctorAtHospital);
-
-
-$queryGetRating = "SELECT r.rating_value, r.comment, r.created_at, u.full_name
-        FROM rating r
-        JOIN user u ON r.user_id = u.user_id
-        WHERE r.hospital_id = '$hospitalId'
-        ORDER BY r.created_at ASC";
-
-$resultGetRating = $conn->query($queryGetRating);
+$resultDoctorAtHospital = $hospital->getDoctorHospital($hospitalId);
+$resultGetRating = $hospital->getRatingHospital($hospitalId);
 
 
 if (isset($_POST['submit'])) {
@@ -69,7 +48,7 @@ if (isset($_POST['submit'])) {
             </div>
             <div>
                 <?php if (isset($image)) : ?>
-                <img class="h-[385px] w-[663px] rounded-lg" src="<?= $image ?>" alt="">
+                    <img class="h-[385px] w-[663px] rounded-lg" src="<?= $image ?>" alt="">
                 <?php endif; ?>
             </div>
             <div class="text-justify ">
@@ -102,9 +81,7 @@ if (isset($_POST['submit'])) {
                     <div class="bg-[#9747ff] w-max p-3 font-bold text-white rounded-t-lg">Daftar Dokter
                     </div>
                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M0 32H32C20.7989 32 15.1984 32 10.9202 29.8201C7.15695 27.9027 4.09734 24.8431 2.17987 21.0798C0 16.8016 0 11.201 0 0V32Z"
-                            fill="#9747FF" />
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 32H32C20.7989 32 15.1984 32 10.9202 29.8201C7.15695 27.9027 4.09734 24.8431 2.17987 21.0798C0 16.8016 0 11.201 0 0V32Z" fill="#9747FF" />
                     </svg>
                 </div>
                 <div class="overflow-x-auto w-full">
@@ -122,12 +99,12 @@ if (isset($_POST['submit'])) {
                             $count = 1;
                             while ($row = mysqli_fetch_assoc($resultDoctorAtHospital)) :
                             ?>
-                            <tr class="text-center ">
-                                <td class="border-r border-r-2 p-3"><?= $count++ ?></td>
-                                <td class="border-r border-r-2 font-bold p-3"><?= $row['doctor_name']; ?></td>
-                                <td class="border-r border-r-2 p-3"><?= $row['specialization']; ?></td>
-                                <td class="border-r border-r-2 p-3"><?= $row["phone"] ?></td>
-                            </tr>
+                                <tr class="text-center ">
+                                    <td class="border-r border-r-2 p-3"><?= $count++ ?></td>
+                                    <td class="border-r border-r-2 font-bold p-3"><?= $row['doctor_name']; ?></td>
+                                    <td class="border-r border-r-2 p-3"><?= $row['specialization']; ?></td>
+                                    <td class="border-r border-r-2 p-3"><?= $row["phone"] ?></td>
+                                </tr>
                             <?php endwhile; ?>
                         </tbody>
                     </table>
@@ -139,29 +116,28 @@ if (isset($_POST['submit'])) {
                 <?php
                 while ($row = mysqli_fetch_assoc($resultGetRating)) :
                 ?>
-                <div class=" bg-[#F5F5F5]/50 p-4 mt-5 rounded-md border-2">
-                    <div class="flex items-center gap-4">
-                        <div class="flex">
-                            <div
-                                class="flex justify-center items-center text-white w-8 h-8 sm:w-[55px] sm:h-[55px] bg-black rounded-full">
-                                <i class="fa fa-user"></i>
-                            </div>
-                        </div>
-                        <div class="text-xs sm:text-sm">
-                            <span class="font-bold"><?= $row['full_name']; ?></span>
-                            <div class="flex items-center gap-2">
-                                <div class="rating flex  gap-2 items-center px-3 py-1 bg-[#DCE4FA] rounded-full">
-                                    <i class="fa fa-star text-yellow-500"></i>
-                                    <div class="font-bold"><?= $row['rating_value'] ?></div>
+                    <div class=" bg-[#F5F5F5]/50 p-4 mt-5 rounded-md border-2">
+                        <div class="flex items-center gap-4">
+                            <div class="flex">
+                                <div class="flex justify-center items-center text-white w-8 h-8 sm:w-[55px] sm:h-[55px] bg-black rounded-full">
+                                    <i class="fa fa-user"></i>
                                 </div>
-                                <span><?= $row['created_at'] ?></span>
+                            </div>
+                            <div class="text-xs sm:text-sm">
+                                <span class="font-bold"><?= $row['full_name']; ?></span>
+                                <div class="flex items-center gap-2">
+                                    <div class="rating flex  gap-2 items-center px-3 py-1 bg-[#DCE4FA] rounded-full">
+                                        <i class="fa fa-star text-yellow-500"></i>
+                                        <div class="font-bold"><?= $row['rating_value'] ?></div>
+                                    </div>
+                                    <span><?= $row['created_at'] ?></span>
+                                </div>
                             </div>
                         </div>
+                        <div class="mt-5">
+                            <?= $row['comment']; ?>
+                        </div>
                     </div>
-                    <div class="mt-5">
-                        <?= $row['comment']; ?>
-                    </div>
-                </div>
                 <?php endwhile; ?>
 
                 <div class="mt-10">
@@ -169,37 +145,32 @@ if (isset($_POST['submit'])) {
 
 
                         <?php if ($isAuthenticated) : ?>
+                            <?php if (mysqli_num_rows($resultGetRating) == 0) : ?>
+                                <div class="mb-5">
+                                    Jadi dirimu yang pertama memberikan rating.
+                                </div>
+                            <?php endif; ?>
 
-                        <?php if (mysqli_num_rows($resultGetRating) == 0) : ?>
-                        <div class="mb-5">
-                            Jadi dirimu yang pertama memberikan rating.
-                        </div>
-                        <?php endif; ?>
-
-                        <div class="font-bold">
-                            Berikan rating..
-                        </div>
-                        <div class="flex items-center ">
-                            <?php for ($i = 1; $i <= 5; $i++) : ?>
-                            <input type="radio" id="star<?= $i ?>" name="rate" value="<?= $i ?>" class="hidden" />
-                            <label for="star<?= $i ?>" title="text" class="cursor-pointer"
-                                onclick="handleRating(<?= $i ?>)">
-                                <svg class="w-6 h-6 fill-current text-gray-500" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 2l3.09 6.31 6.91.82-5 4.87 1.18 7.19L12 18.77l-6.09 3.22 1.18-7.19-5-4.87 6.91-.82L12 2z">
-                                    </path>
-                                </svg>
-                            </label>
-                            <?php endfor; ?>
-                        </div>
-                        <textarea id="comment" name="comment" rows="4" cols="30"
-                            class="w-full mt-4 border rounded-lg focus:outline-none focus:border-blue-500 px-3 py-2"></textarea>
-                        <button type="submit" name="submit" value="submit"
-                            class="mt-4 px-6 py-2 bg-black text-white font-bold rounded-lg focus:outline-none">Submit</button>
+                            <div class="font-bold">
+                                Berikan rating..
+                            </div>
+                            <div class="flex items-center ">
+                                <?php for ($i = 1; $i <= 5; $i++) : ?>
+                                    <input type="radio" id="star<?= $i ?>" name="rate" value="<?= $i ?>" class="hidden" />
+                                    <label for="star<?= $i ?>" title="text" class="cursor-pointer" onclick="handleRating(<?= $i ?>)">
+                                        <svg class="w-6 h-6 fill-current text-gray-500" viewBox="0 0 24 24">
+                                            <path d="M12 2l3.09 6.31 6.91.82-5 4.87 1.18 7.19L12 18.77l-6.09 3.22 1.18-7.19-5-4.87 6.91-.82L12 2z">
+                                            </path>
+                                        </svg>
+                                    </label>
+                                <?php endfor; ?>
+                            </div>
+                            <textarea id="comment" name="comment" rows="4" cols="30" class="w-full mt-4 border rounded-lg focus:outline-none focus:border-blue-500 px-3 py-2"></textarea>
+                            <button type="submit" name="submit" value="submit" class="mt-4 px-6 py-2 bg-black text-white font-bold rounded-lg focus:outline-none">Submit</button>
                         <?php else : ?>
-                        <div class="mt-4 text-sm"><a class="text-[#F56767]" href="login.php">Login</a>
-                            untuk memberikan rating.
-                        </div>
+                            <div class="mt-4 text-sm"><a class="text-[#F56767]" href="login.php">Login</a>
+                                untuk memberikan rating.
+                            </div>
                         <?php endif ?>
                     </form>
                 </div>
@@ -210,19 +181,19 @@ if (isset($_POST['submit'])) {
 </div>
 
 <script>
-function handleRating(rating) {
-    const radios = document.querySelectorAll('input[name="rate"]');
-    radios.forEach((radio, index) => {
-        const starSVG = radio.nextElementSibling.querySelector('.w-6.h-6.fill-current');
-        if (index < rating) {
-            starSVG.classList.add('text-yellow-500');
-            starSVG.classList.remove('text-gray-500');
-        } else {
-            starSVG.classList.remove('text-yellow-500');
-            starSVG.classList.add('text-gray-500');
-        }
-    });
-}
+    function handleRating(rating) {
+        const radios = document.querySelectorAll('input[name="rate"]');
+        radios.forEach((radio, index) => {
+            const starSVG = radio.nextElementSibling.querySelector('.w-6.h-6.fill-current');
+            if (index < rating) {
+                starSVG.classList.add('text-yellow-500');
+                starSVG.classList.remove('text-gray-500');
+            } else {
+                starSVG.classList.remove('text-yellow-500');
+                starSVG.classList.add('text-gray-500');
+            }
+        });
+    }
 </script>
 
 
