@@ -1,5 +1,4 @@
-<?php
-include('header_admin.php');
+<?php include('header_admin.php');
 
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
@@ -11,7 +10,7 @@ if (isset($_POST['submit'])) {
     $description = $_POST['description'];
 
 
-    $queryInsertHospital = "INSERT INTO hospital (name, address, phone, email, image, website, description) 
+    $queryInsertHospital = "INSERT INTO hospital (name, address, phone, email, image, website, description)
     VALUES ('$name', '$address','$phone', '$email', '$image', '$website', '$description');";
     $result = mysqli_query($conn, $queryInsertHospital);
     if ($result) {
@@ -24,8 +23,8 @@ if (isset($_POST['submit'])) {
 
 
 <div class="flex justify-center items-center pt-28 mb-10 w-full px-5">
-    <form class="flex flex-col items-center gap-5 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2" method="post">
-        <h2 class="text-4xl font-bold">Tambah Rumah Sakit</h2>
+    <form class="flex flex-col items-center gap-5 sm:w-1/2 h-auto p-10 bg-white rounded-lg border-2" method="post">
+        <h2 class="text-4xl sm:text-2xl font-bold">Tambah Rumah Sakit</h2>
 
         <div class="flex flex-col gap-2 w-full">
             <label for="name" class="font-bold">Nama</label>
@@ -49,7 +48,7 @@ if (isset($_POST['submit'])) {
 
         <div class="flex flex-col gap-2 w-full">
             <label for="image" class="font-bold">URL Gambar</label>
-            <input class="border h-10 p-3 rounded-md" type="text" name="image" placeholder="Masukkan gambar" value="<?= $image ?>">
+            <input class="border h-10 p-3 rounded-md" type="text" name="image" placeholder="Masukkan gambar">
         </div>
 
         <div class="flex flex-col gap-2 w-full">

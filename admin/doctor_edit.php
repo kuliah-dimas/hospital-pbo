@@ -2,6 +2,10 @@
 include('header_admin.php');
 
 $doctorId = $_GET['doctor_id'];
+if (!isset($doctorId)) {
+    header("Location: doctor_list.php");
+    exit;
+}
 
 $sqlGetDoctorDetail = "SELECT name, specialization, phone FROM doctor WHERE doctor_id = '$doctorId'";
 $result = mysqli_query($conn, $sqlGetDoctorDetail);
@@ -10,6 +14,8 @@ if (mysqli_num_rows($result) > 0) {
     $name = $userData['name'];
     $specialization = $userData['specialization'];
     $phone = $userData['phone'];
+} else {
+    header("Location: doctor_list.php");
 }
 
 if (isset($_POST['submit'])) {
@@ -28,7 +34,7 @@ if (isset($_POST['submit'])) {
 
 
 <div class="flex justify-center items-center pt-28 mb-10 w-full px-5">
-    <form class="flex flex-col items-center gap-5 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2" method="post">
+    <form class="flex flex-col items-center gap-5 sm:w-1/2 h-auto p-10 bg-white rounded-lg border-2" method="post">
         <h1 class="text-4xl font-bold">Edit Dokter</h1>
 
         <div class="flex flex-col gap-2 w-full">

@@ -1,6 +1,4 @@
-<?php
-include('header.php');
-session_start();
+<?php include('header.php');
 
 function validateInputUser($email, $password)
 {
@@ -24,8 +22,7 @@ function setSession($email)
     $_SESSION['email'] = $email;
 }
 
-$submit = $_POST['submit'];
-if (isset($submit)) {
+if (isset($_POST['submit'])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
 

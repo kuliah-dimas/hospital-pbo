@@ -27,8 +27,7 @@ function getUserInfo($conn, $email)
 {
     $getUserDetail = "SELECT user_id, full_name, email, role FROM user WHERE email = '$email'";
     $result = $conn->query($getUserDetail);
-    $userInfo = mysqli_fetch_assoc($result);
-    return $userInfo;
+    return mysqli_fetch_assoc($result);
 }
 
 if (isset($_POST['logout'])) {
@@ -41,7 +40,8 @@ if (isset($_POST['logout'])) {
 
 ?>
 
-<nav id="navBar" class="z-10 flex flex fixed z-100 items-start w-full justify-between px-10 py-5 backdrop-blur-md bg-white/35">
+<nav id="navBar" class="z-10 flex flex fixed z-100 items-start w-full justify-between px-10 py-5  backdrop-blur-md bg-white/35">
+    <!-- bg-white/35 -->
     <a href="index.php">
         <div class="brand flex items-center gap-3">
             <img class="h-10 w-10" src="assets/img/svg/brand_logo.svg" alt="Brand">

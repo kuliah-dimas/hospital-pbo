@@ -2,6 +2,10 @@
 include('header_admin.php');
 
 $userId = $_GET['user_id'];
+if (!isset($userId)) {
+    header("Location: user_list.php");
+    exit;
+}
 
 $sqlGetUserDetail = "SELECT full_name, email, role FROM user WHERE user_id = '$userId' LIMIT 1;";
 $result = mysqli_query($conn, $sqlGetUserDetail);
@@ -10,6 +14,8 @@ if (mysqli_num_rows($result) > 0) {
     $fullName = $userData['full_name'];
     $email = $userData['email'];
     $role = $userData['role'];
+} else {
+    header("Location: user_list.php");
 }
 
 if (isset($_POST['submit'])) {
@@ -44,7 +50,7 @@ if (isset($_POST['submit'])) {
 ?>
 
 <div class="flex justify-center items-center pt-28 mb-10 w-full px-5">
-    <form class="flex flex-col items-center gap-5 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2" method="post">
+    <form class="flex flex-col items-center gap-5 sm:w-1/2 h-auto p-10 bg-white rounded-lg border-2" method="post">
         <h2 class="text-4xl font-bold">Edit Pengguna</h2>
 
         <div class="flex flex-col gap-2 w-full">

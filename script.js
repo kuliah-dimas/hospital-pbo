@@ -24,3 +24,13 @@ function handleWindowResize() {
 window.addEventListener("resize", handleWindowResize);
 
 handleWindowResize();
+
+
+    document.querySelectorAll('.relative').forEach(item => {
+        item.addEventListener('click', () => {
+            item.querySelector('ul').classList.remove('hidden');
+        });
+        item.addEventListener('mouseleave', () => {
+            item.querySelector('ul').classList.add('hidden');
+        });
+    });

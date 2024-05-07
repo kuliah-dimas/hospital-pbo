@@ -32,35 +32,41 @@ $result = getHospital($conn);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    $count = 1;
-                    while ($row = mysqli_fetch_assoc($result)) :
-                    ?>
-                        <tr class="text-center">
-                            <td class="border-r border-r-2 px-2"><?= $count++ ?></td>
-                            <td class="border-r border-r-2 font-bold px-2"><?= $row["name"] ?></td>
-                            <td class="border-r border-r-2 px-2"><?= $row["phone"] ?></td>
-                            <td class="border-r border-r-2 px-2"><?= $row["email"] ?></td>
-                            <td class="border-r border-r-2 p-2">
-                                <div class="flex justify-center items-center ">
-                                    <div class="flex justify-center items-center gap-2 bg-[#DCE4FA] rounded-xl px-2 py-1 w-min">
-                                        <i class="fa fa-star text-yellow-500"></i>
-                                        <div><?= $row["rating"] ?></div>
-                                    </div>
-
-                                </div>
-                            </td>
-                            <td class="p-3">
-                                <form action="/admin/hospital_edit.php?hospital_id=<?= $row["hospital_id"] ?>" method="post">
-                                    <button type="submit" name="edit" class="bg-[#EEE170] w-[86px] rounded-full px-2 py-1">Edit</button>
-                                </form>
-                                <form action="/admin/hospital_delete.php?hospital_id=<?= $row["hospital_id"] ?>" method="post">
-                                    <button type="submit" name="submit" class="bg-[#F56767] w-[86px] rounded-full px-2 py-1 mt-2">Delete</button>
-                                </form>
-                            </td>
+                    <?php if ($result->num_rows < 1) : ?>
+                        <tr class="text-center h-10">
+                            <td colspan="6">Tidak ada data rumah sakit.</td>
                         </tr>
+                    <?php else : ?>
+                        <?php
+                        $count = 1;
+                        while ($row = mysqli_fetch_assoc($result)) :
+                        ?>
+                            <tr class="text-center">
+                                <td class="border-r border-r-2 px-2"><?= $count++ ?></td>
+                                <td class="border-r border-r-2 font-bold px-2"><?= $row["name"] ?></td>
+                                <td class="border-r border-r-2 px-2"><?= $row["phone"] ?></td>
+                                <td class="border-r border-r-2 px-2"><?= $row["email"] ?></td>
+                                <td class="border-r border-r-2 p-2">
+                                    <div class="flex justify-center items-center ">
+                                        <div class="flex justify-center items-center gap-2 bg-[#DCE4FA] rounded-xl px-2 py-1 w-min">
+                                            <i class="fa fa-star text-yellow-500"></i>
+                                            <div><?= $row["rating"] ?></div>
+                                        </div>
 
-                    <?php endwhile; ?>
+                                    </div>
+                                </td>
+                                <td class="p-3">
+                                    <form action="/admin/hospital_edit.php?hospital_id=<?= $row["hospital_id"] ?>" method="post">
+                                        <button type="submit" name="edit" class="bg-[#EEE170] w-[86px] rounded-full px-2 py-1">Edit</button>
+                                    </form>
+                                    <form action="/admin/hospital_delete.php?hospital_id=<?= $row["hospital_id"] ?>" method="post">
+                                        <button type="submit" name="submit" class="bg-[#F56767] w-[86px] rounded-full px-2 py-1 mt-2">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+
+                        <?php endwhile; ?>
+                    <?php endif; ?>
 
                 </tbody>
             </table>

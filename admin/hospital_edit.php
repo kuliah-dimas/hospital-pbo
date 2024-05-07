@@ -2,6 +2,10 @@
 include('header_admin.php');
 
 $hospitalId = $_GET['hospital_id'];
+if (!isset($hospitalId)) {
+    header("Location: hospital_list.php");
+    exit;
+}
 
 $queryGetHospitalDetail = "SELECT name, address, phone, email, image, website, description, rating, num_ratings FROM hospital WHERE hospital_id = '$hospitalId'";
 $result = mysqli_query($conn, $queryGetHospitalDetail);
@@ -14,6 +18,8 @@ if (mysqli_num_rows($result) > 0) {
     $image = $hospitalData['image'];
     $website = $hospitalData['website'];
     $description = $hospitalData['description'];
+} else {
+    header("Location: hospital_list.php");
 }
 
 if (isset($_POST['submit'])) {
@@ -39,7 +45,7 @@ if (isset($_POST['submit'])) {
 
 
 <div class="flex justify-center items-center pt-28 mb-10 w-full px-5">
-    <form class="flex flex-col items-center gap-5 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2" method="post">
+    <form class="flex flex-col items-center gap-5 sm:w-1/2 h-auto p-10 bg-white rounded-lg border-2" method="post">
         <h1 class="text-4xl font-bold">Edit Rumah Sakit</h1>
 
         <div class="flex flex-col gap-2 w-full">

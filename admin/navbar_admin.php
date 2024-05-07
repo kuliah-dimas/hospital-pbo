@@ -2,23 +2,28 @@
 
 session_start();
 
-$isAuthenticated = isset($_SESSION['authenticated']);
+$isAuthenticated = $_SESSION['authenticated'] ?? false;
 if (!$isAuthenticated) {
     header("Location: ../login.php");
 }
 
-$email = isset($_SESSION['email']);
-if ($email) {
+$email = $_SESSION['email'] ?? '';
+if (isset($email)) {
+    $email = $_SESSION['email'];
     $userInfo = getUserInfo($conn, $email);
-    $role = $userInfo['role'];
+    $role =  $userInfo["role"];
+
+    if ($role != "admin") {
+        header("Location: ../index.php");
+        exit();
+    }
 }
 
 function getUserInfo($conn, $email)
 {
     $getUserDetail = "SELECT full_name, email, role FROM user WHERE email = '$email'";
     $result = $conn->query($getUserDetail);
-    $userInfo = mysqli_fetch_assoc($result);
-    return $userInfo;
+    return mysqli_fetch_assoc($result);
 }
 
 if (isset($_POST['logout'])) {
@@ -46,21 +51,36 @@ if (isset($_POST['logout'])) {
         </div>
         <ul id="navbarMenu" class="flex flex-col md:flex-row items-end justify-center md:items-center gap-5">
             <li><a href="../index.php">Home</a></li>
-            <li><a href="hospital_list.php">Rumah Sakit</a></li>
-            <li><a href="doctor_list.php">Dokter</a></li>
-            <li><a href="user_list.php">Pengguna</a></li>
+            <li class="relative">
+                <a href="#">Rumah Sakit <i class="fas fa-angle-down"></i></a>
+                <ul class="absolute hidden bg-white rounded-md shadow-md text-xs w-max">
+                    <li><a href="hospital_list.php" class="block px-4 py-4 hover:bg-gray-100">Daftar Rumah Sakit</a></li>
+                    <li><a href="hospital_add.php" class="block px-4 py-4 hover:bg-gray-100">Tambah Rumah Sakit</a></li>
+                </ul>
+            </li>
+            <li class="relative">
+                <a href="#">Dokter <i class="fas fa-angle-down"></i></a>
+                <ul class="absolute hidden bg-white rounded-md shadow-md text-xs w-max">
+                    <li><a href="doctor_list.php" class="block px-4 py-4 hover:bg-gray-100">Daftar Dokter</a></li>
+                    <li><a href="doctor_add.php" class="block px-4 py-4 hover:bg-gray-100">Tambah Dokter</a></li>
+                </ul>
+            </li>
+            <li class="relative">
+                <a href="#">Pengguna <i class="fas fa-angle-down"></i></a>
+                <ul class="absolute hidden bg-white rounded-md shadow-md text-xs w-max">
+                    <li><a href="user_list.php" class="block px-4 py-4 hover:bg-gray-100">Daftar Pengguna</a></li>
+                    <li><a href="user_add.php" class="block px-4 py-4 hover:bg-gray-100">Tambah Pengguna</a></li>
+                </ul>
+            </li>
             <?php if ($isAuthenticated) : ?>
                 <li>
                     <a class="bg-black rounded rounded-full text-white px-5 py-2" href="../index.php">User</a>
                 </li>
                 <li>
                     <form method="post">
-                        <button class="bg-black rounded rounded-full text-white px-5 py-2" type="submit" name="logout">
-                            Logout
-                        </button>
+                        <button class="bg-black rounded rounded-full text-white px-5 py-2" type="submit" name="logout">Logout</button>
                     </form>
                 </li>
-
             <?php else : ?>
                 <li>
                     <a href="login.php">

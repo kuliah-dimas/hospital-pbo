@@ -32,27 +32,32 @@ $result = getDoctor($conn);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    $count = 1;
-                    while ($doctor = mysqli_fetch_assoc($result)) :
-                    ?>
-                        <tr class="text-center">
-                            <td class="border-r border-r-2 px-2 px-2"><?= $count++ ?></td>
-                            <td class="border-r border-r-2 px-2 font-bold"><?= $doctor["name"] ?></td>
-                            <td class="border-r border-r-2 px-2"><?= $doctor["specialization"] ?></td>
-                            <td class="border-r border-r-2 px-2"><?= $doctor["phone"] ?></td>
-                            <td class="p-3">
-                                <form action="/admin/doctor_edit.php?doctor_id=<?= $doctor["doctor_id"] ?>" method="post">
-                                    <button type="submit" name="edit" class="bg-[#EEE170] w-[86px] rounded-full px-2 py-1">Edit</button>
-                                </form>
-                                <form action="/admin/doctor_delete.php?doctor_id=<?= $doctor["doctor_id"] ?>" method="post">
-                                    <button type="submit" name="submit" class="bg-[#F56767] w-[86px] rounded-full px-2 py-1 mt-2">Delete</button>
-                                </form>
-                            </td>
+                    <?php if ($result->num_rows < 1) : ?>
+                        <tr class="text-center h-10">
+                            <td colspan="5">Tidak ada data dokter.</td>
                         </tr>
+                    <?php else : ?>
+                        <?php
+                        $count = 1;
+                        while ($doctor = mysqli_fetch_assoc($result)) :
+                        ?>
+                            <tr class="text-center">
+                                <td class="border-r border-r-2 px-2 px-2"><?= $count++ ?></td>
+                                <td class="border-r border-r-2 px-2 font-bold"><?= $doctor["name"] ?></td>
+                                <td class="border-r border-r-2 px-2"><?= $doctor["specialization"] ?></td>
+                                <td class="border-r border-r-2 px-2"><?= $doctor["phone"] ?></td>
+                                <td class="p-3">
+                                    <form action="/admin/doctor_edit.php?doctor_id=<?= $doctor["doctor_id"] ?>" method="post">
+                                        <button type="submit" name="edit" class="bg-[#EEE170] w-[86px] rounded-full px-2 py-1">Edit</button>
+                                    </form>
+                                    <form action="/admin/doctor_delete.php?doctor_id=<?= $doctor["doctor_id"] ?>" method="post">
+                                        <button type="submit" name="submit" class="bg-[#F56767] w-[86px] rounded-full px-2 py-1 mt-2">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
 
-                    <?php endwhile; ?>
-
+                        <?php endwhile; ?>
+                    <?php endif; ?>
                 </tbody>
 
 

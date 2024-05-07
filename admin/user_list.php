@@ -32,27 +32,32 @@ $result = getUser($conn);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    $count = 1;
-                    while ($row = mysqli_fetch_assoc($result)) :
-                    ?>
-                        <tr class="text-center">
-                            <td class="border-r border-r-2 px-2 px-2"><?= $count++ ?></td>
-                            <td class="border-r border-r-2 px-2 font-bold"><?= $row["full_name"] ?></td>
-                            <td class="border-r border-r-2 px-2"><?= $row["email"] ?></td>
-                            <td class="border-r border-r-2 px-2"><?= $row["role"] ?></td>
-                            <td class="p-3">
-                                <form action="/admin/user_edit.php?user_id=<?= $row["user_id"] ?>" method="post">
-                                    <button type="submit" name="edit" class="bg-[#EEE170] w-[86px] rounded-full px-2 py-1">Edit</button>
-                                </form>
-                                <form action="/admin/user_delete.php?user_id=<?= $row["user_id"] ?>" method="post">
-                                    <button type="submit" name="submit" class="bg-[#F56767] w-[86px] rounded-full px-2 py-1 mt-2">Delete</button>
-                                </form>
-                            </td>
+                    <?php if ($result->num_rows < 1) : ?>
+                        <tr class="text-center h-10">
+                            <td colspan="6">Tidak ada data pengguna.</td>
                         </tr>
+                    <?php else : ?>
+                        <?php
+                        $count = 1;
+                        while ($row = mysqli_fetch_assoc($result)) :
+                        ?>
+                            <tr class="text-center">
+                                <td class="border-r border-r-2 px-2 px-2"><?= $count++ ?></td>
+                                <td class="border-r border-r-2 px-2 font-bold"><?= $row["full_name"] ?></td>
+                                <td class="border-r border-r-2 px-2"><?= $row["email"] ?></td>
+                                <td class="border-r border-r-2 px-2"><?= $row["role"] ?></td>
+                                <td class="p-3">
+                                    <form action="/admin/user_edit.php?user_id=<?= $row["user_id"] ?>" method="post">
+                                        <button type="submit" name="edit" class="bg-[#EEE170] w-[86px] rounded-full px-2 py-1">Edit</button>
+                                    </form>
+                                    <form action="/admin/user_delete.php?user_id=<?= $row["user_id"] ?>" method="post">
+                                        <button type="submit" name="submit" class="bg-[#F56767] w-[86px] rounded-full px-2 py-1 mt-2">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
 
-                    <?php endwhile; ?>
-
+                        <?php endwhile; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
