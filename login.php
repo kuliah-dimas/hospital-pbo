@@ -53,7 +53,9 @@ if (isset($_POST['submit'])) {
 <?php  ?>
 
 <div class="flex justify-center items-center pt-28 mb-10 w-full px-5">
-    <form class="flex flex-col items-center gap-5 w-3/4 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2" method="post">
+    <form
+        class="flex flex-col items-center gap-5 w-full mx-2 sm:w-1/2 lg:w-1/4 h-auto p-10 bg-white rounded-lg border-2"
+        method="post">
         <h1 class="text-4xl font-bold">Login</h1>
 
         <div class="flex flex-col gap-2 w-full">
@@ -63,7 +65,8 @@ if (isset($_POST['submit'])) {
 
         <div class="flex flex-col gap-2 w-full">
             <label for="password" class="font-bold">Password</label>
-            <input class="border h-10 px-3 rounded-md" type="password" name="password" placeholder="Masukkan password anda">
+            <input class="border h-10 px-3 rounded-md" type="password" name="password"
+                placeholder="Masukkan password anda">
         </div>
 
         <button class="flex justify-center items-center font-bold
@@ -74,32 +77,32 @@ if (isset($_POST['submit'])) {
 </div>
 
 <script>
-    let isHiddenMenu = false;
-    const toggleMenu = document.getElementById("toggleMenu");
-    const navbarMenu = document.getElementById("navbarMenu");
+let isHiddenMenu = false;
+const toggleMenu = document.getElementById("toggleMenu");
+const navbarMenu = document.getElementById("navbarMenu");
 
-    function handleWindowResize() {
-        const windowWidth = window.innerWidth;
-        if (windowWidth > 768) {
-            navbarMenu.style.display = "flex";
-            navbarMenu.classList.add("flex-row");
-        } else {
-            navbarMenu.style.display = "none";
-        }
+function handleWindowResize() {
+    const windowWidth = window.innerWidth;
+    if (windowWidth > 768) {
+        navbarMenu.style.display = "flex";
+        navbarMenu.classList.add("flex-row");
+    } else {
+        navbarMenu.style.display = "none";
     }
+}
 
-    window.addEventListener("resize", handleWindowResize);
+window.addEventListener("resize", handleWindowResize);
 
-    handleWindowResize();
+handleWindowResize();
 
-    toggleMenu.addEventListener("click", () => {
-        isHiddenMenu = !isHiddenMenu;
-        if (isHiddenMenu) {
-            navbarMenu.style.display = "none";
-        } else {
-            navbarMenu.style.display = "flex";
-        }
-    });
+toggleMenu.addEventListener("click", () => {
+    isHiddenMenu = !isHiddenMenu;
+    if (isHiddenMenu) {
+        navbarMenu.style.display = "none";
+    } else {
+        navbarMenu.style.display = "flex";
+    }
+});
 </script>
 
 

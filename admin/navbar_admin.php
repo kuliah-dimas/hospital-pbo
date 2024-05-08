@@ -28,8 +28,7 @@ if (isset($_POST['logout'])) {
 }
 
 ?>
-<!-- backdrop-blur-md -->
-<nav id="navBar" class="flex flex fixed items-start w-full justify-between px-10 py-5  bg-white/35">
+<nav id="navBar" class="z-10 flex flex fixed z-100 items-start w-full justify-between px-10 py-5 backdrop-blur-md bg-white/35">
     <a href="#">
         <div class="brand flex items-center gap-3">
             <img class="h-10 w-10" src="../assets/img/svg/brand_logo.svg" alt="Brand">

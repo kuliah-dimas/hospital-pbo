@@ -29,7 +29,7 @@ class Hospital
 
     function getRatingHospital($hospitalId)
     {
-        $query = "SELECT r.rating_value, r.comment, r.created_at, u.full_name
+        $query = "SELECT r.user_id, r.rating_value, r.comment, r.created_at, u.full_name
         FROM rating r
         JOIN user u ON r.user_id = u.user_id
         WHERE r.hospital_id = '$hospitalId'
@@ -78,6 +78,13 @@ class Hospital
               SET name='$name', address='$address', phone='$phone', email='$email', image='$image', website='$website', description='$description'
               WHERE hospital_id='$hospitalId'";
         return $this->exec($query);
+    }
+
+    function updateUserRatingHospital($hospitalId, $userId, $rate, $comment)
+    {
+        $query = "UPDATE rating SET rating_value = '$rate', comment = '$comment' WHERE hospital_id = '$hospitalId' AND user_id = '$userId'";
+        $result =  $this->exec($query);
+        return $result ? true : false;
     }
 
 

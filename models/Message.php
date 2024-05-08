@@ -17,7 +17,7 @@ class Message
 
     function insertMessage($name, $email, $message)
     {
-        $query = "INSERT INTO message VALUES ($name, $email, $message)";
+        $query = "INSERT INTO message (name, email, message) VALUES ('$name', '$email', '$message')";
         return $this->exec($query);
     }
 

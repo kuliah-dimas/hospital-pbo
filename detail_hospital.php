@@ -2,10 +2,12 @@
 
 include('header.php');
 require_once('./models/Hospital.php');
+require_once('./models/Rating.php');
 
 $hospitalId = $_GET['hospital_id'];
 
 $hospital = new Hospital($conn);
+
 
 $resultDetailHospital = $hospital->getDetailHospital($hospitalId);
 while ($row = $resultDetailHospital->fetch_assoc()) {
@@ -22,10 +24,23 @@ while ($row = $resultDetailHospital->fetch_assoc()) {
 $resultDoctorAtHospital = $hospital->getDoctorHospital($hospitalId);
 $resultGetRating = $hospital->getRatingHospital($hospitalId);
 
+$ratingObj = new Rating($conn);
+$resultUserRating = $ratingObj->getRatingByHospitalAndUser($hospitalId, $userId);
+while ($row = $resultUserRating->fetch_assoc()) {
+    $userRating = $row['rating_value'];
+    $userComment = $row['comment'];
+}
 
 if (isset($_POST['submit'])) {
     $rate = $_POST['rate'];
     $comment = $_POST['comment'];
+
+    $resultUserRating = $ratingObj->getRatingByHospitalAndUser($hospitalId, $userId);
+    if (mysqli_num_rows($resultUserRating) > 0) {
+        echo "<script>alert('Gagal memberikan rating, kamu sudah pernah memberikan rating.');</script>";
+        echo "<script>window.location.href = 'detail_hospital.php?hospital_id=$hospitalId';</script>";
+        return;
+    }
 
     $result = $hospital->insertRatingHospital($hospitalId, $userId, $rate, $comment);
     if ($result) {
@@ -34,8 +49,27 @@ if (isset($_POST['submit'])) {
         echo "<script>alert('Gagal memberikan rating.');</script>";
     }
 
+    $ratingObj->calculateAverageRating($hospitalId);
+
     echo "<script>window.location.href = 'detail_hospital.php?hospital_id=$hospitalId';</script>";
 }
+
+if (isset($_POST['submitEdit'])) {
+    $rate = $_POST['rate'];
+    $comment = $_POST['comment'];
+
+    $result = $hospital->updateUserRatingHospital($hospitalId, $userId, $rate, $comment);
+    if ($result) {
+        echo "<script>alert('Berhasil ubah rating.');</script>";
+    } else {
+        echo "<script>alert('Gagal ubah rating.');</script>";
+    }
+
+    $ratingObj->calculateAverageRating($hospitalId);
+
+    echo "<script>window.location.href = 'detail_hospital.php?hospital_id=$hospitalId';</script>";
+}
+
 
 ?>
 
@@ -141,31 +175,53 @@ if (isset($_POST['submit'])) {
 
                 <div class="mt-10">
                     <form class="rating_card " method="post">
-
-
                         <?php if ($isAuthenticated) : ?>
                             <?php if (mysqli_num_rows($resultGetRating) == 0) : ?>
                                 <div class="mb-5">
                                     Jadi dirimu yang pertama memberikan rating.
                                 </div>
                             <?php endif; ?>
+                            <?php if (mysqli_num_rows($resultUserRating) != 0) : ?>
+                                <div class="font-bold">Edit Rating</div>
+                                <div class="flex items-center mt-3">
+                                    <?php for ($i = 1; $i <= 5; $i++) : ?>
+                                        <input type="radio" id="star<?= $i ?>" name="rate" value="<?= $i ?>" <?= $i == $userRating ? 'checked' : '' ?> class="hidden" disabled />
+                                        <label for="star<?= $i ?>" title="text" class="cursor-pointer" onclick="handleRating(<?= $i ?>)">
+                                            <svg class="w-6 h-6 fill-current <?= $i <= $userRating ? 'text-yellow-500' : 'text-gray-500' ?>" viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.31 6.91.82-5 4.87 1.18 7.19L12 18.77l-6.09 3.22 1.18-7.19-5-4.87 6.91-.82L12 2z">
+                                                </path>
+                                            </svg>
+                                        </label>
+                                    <?php endfor; ?>
+                                </div>
 
-                            <div class="font-bold">
-                                Berikan rating..
-                            </div>
-                            <div class="flex items-center ">
-                                <?php for ($i = 1; $i <= 5; $i++) : ?>
-                                    <input type="radio" id="star<?= $i ?>" name="rate" value="<?= $i ?>" class="hidden" />
-                                    <label for="star<?= $i ?>" title="text" class="cursor-pointer" onclick="handleRating(<?= $i ?>)">
-                                        <svg class="w-6 h-6 fill-current text-gray-500" viewBox="0 0 24 24">
-                                            <path d="M12 2l3.09 6.31 6.91.82-5 4.87 1.18 7.19L12 18.77l-6.09 3.22 1.18-7.19-5-4.87 6.91-.82L12 2z">
-                                            </path>
-                                        </svg>
-                                    </label>
-                                <?php endfor; ?>
-                            </div>
-                            <textarea id="comment" name="comment" rows="4" cols="30" class="w-full mt-4 border rounded-lg focus:outline-none focus:border-blue-500 px-3 py-2"></textarea>
-                            <button type="submit" name="submit" value="submit" class="mt-4 px-6 py-2 bg-black text-white font-bold rounded-lg focus:outline-none">Submit</button>
+                                <textarea id="comment" name="comment" rows="4" cols="30" class="w-full mt-4 border rounded-lg focus:outline-none focus:border-blue-500 px-3 py-2" placeholder="Edit pesan" disabled><?= $userComment ?></textarea>
+
+                                <button type="button" name="edit" value="edit" class="mt-4 px-6 py-2 bg-black text-white font-bold rounded-lg focus:outline-none" onclick="handleEdit()">Edit</button>
+
+                                <button type="submit" name="submitEdit" value="submitEdit" class="hidden mt-4 px-6 py-2 bg-black text-white font-bold rounded-lg focus:outline-none">Submit</button>
+
+                                <button type="button" name="cancel" value="cancel" class="hidden mt-4 px-6 py-2 bg-black text-white font-bold rounded-lg focus:outline-none" onclick="handleCancel()">Cancel</button>
+
+                            <?php else : ?>
+                                <div class="font-bold">
+                                    Berikan rating..
+                                </div>
+                                <div class="flex items-center ">
+                                    <?php for ($i = 1; $i <= 5; $i++) : ?>
+                                        <input type="radio" id="star<?= $i ?>" name="rate" value="<?= $i ?>" class="hidden" />
+                                        <label for="star<?= $i ?>" title="text" class="cursor-pointer" onclick="handleRating(<?= $i ?>)">
+                                            <svg class="w-6 h-6 fill-current text-gray-500" viewBox="0 0 24 24">
+                                                <path d="M12 2l3.09 6.31 6.91.82-5 4.87 1.18 7.19L12 18.77l-6.09 3.22 1.18-7.19-5-4.87 6.91-.82L12 2z">
+                                                </path>
+                                            </svg>
+                                        </label>
+                                    <?php endfor; ?>
+                                </div>
+                                <textarea id="comment" name="comment" rows="4" cols="30" class="w-full mt-4 border rounded-lg focus:outline-none focus:border-blue-500 px-3 py-2" placeholder="Tambahkan pesan"></textarea>
+
+                                <button type="submit" name="submit" value="submit" class="mt-4 px-6 py-2 bg-black text-white font-bold rounded-lg focus:outline-none">Submit</button>
+                            <?php endif; ?>
                         <?php else : ?>
                             <div class="mt-4 text-sm"><a class="text-[#F56767]" href="login.php">Login</a>
                                 untuk memberikan rating.
@@ -183,6 +239,12 @@ if (isset($_POST['submit'])) {
     function handleRating(rating) {
         const radios = document.querySelectorAll('input[name="rate"]');
         radios.forEach((radio, index) => {
+
+            if (radio.disabled == true) {
+                return;
+            }
+
+
             const starSVG = radio.nextElementSibling.querySelector('.w-6.h-6.fill-current');
             if (index < rating) {
                 starSVG.classList.add('text-yellow-500');
@@ -193,9 +255,33 @@ if (isset($_POST['submit'])) {
             }
         });
     }
+
+    function handleEdit() {
+        const editBtn = document.querySelector('[name="edit"]');
+        const cancelBtn = document.querySelector('[name="cancel"]');
+        const submitEditBtn = document.querySelector('[name="submitEdit"]');
+        const textarea = document.getElementById('comment');
+
+        editBtn.classList.add('hidden');
+        cancelBtn.classList.remove('hidden');
+        submitEditBtn.classList.remove('hidden');
+        textarea.disabled = false;
+        document.querySelectorAll('input[name="rate"]').forEach(radio => radio.disabled = false);
+    }
+
+    function handleCancel() {
+        const editBtn = document.querySelector('[name="edit"]');
+        const cancelBtn = document.querySelector('[name="cancel"]');
+        const submitEditBtn = document.querySelector('[name="submitEdit"]');
+        const textarea = document.getElementById('comment');
+
+        editBtn.classList.remove('hidden');
+        cancelBtn.classList.add('hidden');
+        submitEditBtn.classList.add('hidden');
+        textarea.disabled = true;
+        document.querySelectorAll('input[name="rate"]').forEach(radio => radio.disabled = true);
+    }
 </script>
-
-
 
 
 <?php include('footer.php'); ?>
