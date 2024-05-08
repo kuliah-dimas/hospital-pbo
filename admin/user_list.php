@@ -11,7 +11,7 @@ $result = $user->getAllUser();
 <div class="flex flex-col justify-center items-center pt-28 mb-20">
     <div class="w-full px-5 md:w-3/4">
         <div class=" flex items-end">
-            <div class="bg-[#9747ff] w-max p-3 font-bold text-white rounded-t-lg">Daftar Rumah Sakit</div>
+            <div class="bg-[#9747ff] w-max p-3 font-bold text-white rounded-t-lg">Daftar Pengguna</div>
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0 32H32C20.7989 32 15.1984 32 10.9202 29.8201C7.15695 27.9027 4.09734 24.8431 2.17987 21.0798C0 16.8016 0 11.201 0 0V32Z" fill="#9747FF" />
             </svg>
