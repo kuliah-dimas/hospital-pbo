@@ -55,7 +55,7 @@ if (isset($_POST['submit'])) {
                 <div class="bg-slate-100 rounded-xl w-full flex flex-col items-center">
                     <img src="assets/img/svg/eye_icon.svg" class="h-56 w-56" alt="Circle">
                     <div class="text-3xl font-bold">Visi Kami</div>
-                    <div class="text-justify p-10 text-sm">
+                    <div class="text-justify p-10 text-md">
                         Menjadi sumber informasi kesehatan yang terdepan dengan memberikan akses cepat, akurat,
                         dan
                         terpercaya tentang layanan rumah sakit dan dokter, serta mendorong peningkatan kualitas
@@ -66,9 +66,9 @@ if (isset($_POST['submit'])) {
                 </div>
 
                 <div class="bg-slate-100 rounded-xl w-full flex flex-col justify-center items-center">
-                    <img src="assets/img/svg/circle_icon.svg" class="h-56 w-56 mt-5" alt="Circle">
+                    <img src="assets/img/svg/circle_icon.svg" class="h-44 w-44 mt-5" alt="Circle">
                     <div class="text-3xl font-bold mt-[1em]">Misi Kami</div>
-                    <div class="text-justify p-10 text-sm">
+                    <div class="text-justify p-10 text-md">
                         1. Memberikan informasi kesehatan yang akurat dan terpercaya tentang rumah sakit dan
                         dokter.
                         <br>
@@ -93,7 +93,7 @@ if (isset($_POST['submit'])) {
                     <div class="flex flex-wrap  justify-center">
                         <img src="assets/img/rs_information.png" class="w-96 h-96 mx-4 flex justify-center items-center" />
                         <div class="self-center px-4 pr-20 lg:w-1/2">
-                            <h1 class="font-semibold text-3xl text-[#294282] pt-4">02</h1>
+                            <h1 class="font-semibold text-3xl text-[#294282] pt-4">01</h1>
                             <h2 class="font-semibold text-3xl pt-4">Informasi Berharga.</h2>
                             <p class="py-4">
                                 Kami berdedikasi untuk memberikan informasi yang akurat dan terpercaya tentang layanan
@@ -133,7 +133,7 @@ if (isset($_POST['submit'])) {
 
 
         <div class="flex justify-center items-center pt-28 mb-10 w-full px-5">
-            <form class="flex flex-col items-center gap-5 w-full mx-2 sm:mx-0 sm:w-1/2 h-auto p-10 bg-white rounded-lg border-2" method="post">
+            <form class="flex flex-col items-center gap-5 w-full mx-2 sm:mx-0 sm:w-3/4 xl:w-1/2 h-auto p-10 bg-white rounded-lg border-2" method="post">
                 <h2 class="text-4xl sm:text-2xl font-bold">Contact Us</h2>
 
                 <div class="flex flex-col gap-2 w-full">
