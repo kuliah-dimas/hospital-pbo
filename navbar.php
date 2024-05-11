@@ -31,8 +31,6 @@ if (isset($_POST['logout'])) {
     $user->logout();
     exit;
 }
-
-
 ?>
 
 
