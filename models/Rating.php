@@ -3,7 +3,7 @@
 class Rating
 {
 
-    var $conn;
+    private $conn;
 
     public function __construct($conn)
     {

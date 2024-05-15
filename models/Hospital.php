@@ -3,7 +3,7 @@
 class Hospital
 {
 
-    var $conn;
+    private $conn;
 
     public function __construct($conn)
     {

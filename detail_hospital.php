@@ -68,7 +68,6 @@ if (isset($_POST['submitEdit'])) {
     }
 
     $ratingObj->calculateAverageRating($hospitalId);
-
     echo "<script>window.location.href = 'detail_hospital.php?hospital_id=$hospitalId';</script>";
 }
 
@@ -263,6 +262,7 @@ if (isset($_POST['submitEdit'])) {
         const cancelBtn = document.querySelector('[name="cancel"]');
         const submitEditBtn = document.querySelector('[name="submitEdit"]');
         const textarea = document.getElementById('comment');
+
 
         editBtn.classList.add('hidden');
         cancelBtn.classList.remove('hidden');

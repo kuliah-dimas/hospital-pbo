@@ -2,7 +2,7 @@
 
 class User
 {
-    var $conn;
+    private $conn;
 
     public function __construct($conn)
     {
@@ -34,7 +34,7 @@ class User
 
     function insertUser($fullName, $email, $password, $role)
     {
-        $query = "INSERT INTO user (full_name, email, password, role) 
+        $query = "INSERT INTO user (full_name, email, password, role)
         VALUES ('$fullName', '$email', '$password', '$role')";
         return $this->exec($query);
     }
