@@ -46,7 +46,7 @@ $isHospitalExists = mysqli_num_rows($result) > 0;
                     <div class="title flex justify-center items-center gap-3">
                         <div class="rating flex justify-center gap-2 items-center px-3 py-1 bg-[#DCE4FA] rounded-md">
                             <i class="fa fa-star text-yellow-500"></i>
-                            <div class="font-bold"><?= $row['rating'] ?></div>
+                            <div class="font-bold"><?= $row['rating'] == 0 ? '5' : $row['rating'] ?></div>
                         </div>
                         <span class="font-bold"><?= $row['name'] ?></span>
                     </div>

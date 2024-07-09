@@ -28,7 +28,8 @@ if (isset($_POST['logout'])) {
 }
 
 ?>
-<nav id="navBar" class="z-10 flex flex fixed z-100 items-start w-full justify-between px-10 py-5 backdrop-blur-md bg-white/35">
+<nav id="navBar"
+    class="z-10 flex flex fixed z-100 items-start w-full justify-between px-10 py-5 backdrop-blur-md bg-white/35">
     <a href="#">
         <div class="brand flex items-center gap-3">
             <img class="h-10 w-10" src="../assets/img/svg/brand_logo.svg" alt="Brand">
@@ -71,20 +72,21 @@ if (isset($_POST['logout'])) {
 
 
             <?php if ($isAuthenticated) : ?>
-                <li>
-                    <a class="bg-black rounded rounded-full text-white px-5 py-2" href="../index.php">User</a>
-                </li>
-                <li>
-                    <form method="post">
-                        <button class="bg-black rounded rounded-full text-white px-5 py-2" type="submit" name="logout">Logout</button>
-                    </form>
-                </li>
+            <li>
+                <a class="bg-black rounded rounded-full text-white px-5 py-2" href="../index.php">User</a>
+            </li>
+            <li>
+                <form method="post">
+                    <button class="bg-black rounded rounded-full text-white px-5 py-2" type="submit"
+                        name="logout">Logout</button>
+                </form>
+            </li>
             <?php else : ?>
-                <li>
-                    <a href="login.php">
-                        <div class="bg-black rounded rounded-full text-white px-10 py-2">Login</div>
-                    </a>
-                </li>
+            <li>
+                <a href="login.php">
+                    <div class="bg-black rounded rounded-full text-white px-10 py-2">Login</div>
+                </a>
+            </li>
             <?php endif; ?>
         </ul>
     </div>

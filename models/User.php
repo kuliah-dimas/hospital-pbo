@@ -26,6 +26,12 @@ class User
         return $this->exec($query);
     }
 
+    function getUserAlreadyEmailRegistered($email, $userId)
+    {
+        $query = "SELECT user_id FROM user WHERE email = '$email' AND user_id != '$userId'";
+        return $this->exec($query);
+    }
+
     function getAllUser()
     {
         $query = "SELECT * FROM user;";

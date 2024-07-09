@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $role = $_POST['role'];
 
-    $isEmailAlreadyExists = $user->getUserDetailByEmail($email);
+    $isEmailAlreadyExists = $user->getUserAlreadyEmailRegistered($email, $userId);
     if (mysqli_num_rows($isEmailAlreadyExists) > 0) {
         echo "<script>alert('Email telah digunakan.');</script>";
         echo "<script>window.location.href='user_list.php';</script>";
@@ -56,23 +56,27 @@ if (isset($_POST['submit'])) {
 
         <div class="flex flex-col gap-2 w-full">
             <label for="fullName" class="font-bold">Name</label>
-            <input class="border h-10 px-3 rounded-md" type="text" id="fullName" name="fullName" placeholder="Masukkan nama lengkap" value="<?= $fullName ?>" required>
+            <input class="border h-10 px-3 rounded-md" type="text" id="fullName" name="fullName"
+                placeholder="Masukkan nama lengkap" value="<?= $fullName ?>" required>
         </div>
 
         <div class=" flex flex-col gap-2 w-full">
             <label for="email" class="font-bold">Email</label>
-            <input class="border h-10 px-3 rounded-md" type="text" id="email" name="email" placeholder="Masukkan email" value="<?= $email ?>" required>
+            <input class="border h-10 px-3 rounded-md" type="text" id="email" name="email" placeholder="Masukkan email"
+                value="<?= $email ?>" required>
         </div>
 
         <div class="flex flex-col gap-2 w-full">
             <label for="role" class="font-bold">Role</label>
             <div class="flex flex-col h-auto px-3 rounded-md">
                 <div class="flex items-center">
-                    <input type="radio" id="admin" name="role" class="mr-2" value="admin" <?php echo ($role == 'admin') ? 'checked' : ''; ?> required />
+                    <input type="radio" id="admin" name="role" class="mr-2" value="admin"
+                        <?php echo ($role == 'admin') ? 'checked' : ''; ?> required />
                     <label for="admin">Admin</label>
                 </div>
                 <div class="flex items-center">
-                    <input type="radio" id="basic" name="role" class="mr-2" value="basic" <?php echo ($role == 'basic') ? 'checked' : ''; ?> required />
+                    <input type="radio" id="basic" name="role" class="mr-2" value="basic"
+                        <?php echo ($role == 'basic') ? 'checked' : ''; ?> required />
                     <label for="basic">Basic</label>
                 </div>
             </div>
@@ -80,7 +84,8 @@ if (isset($_POST['submit'])) {
 
 
         <button class="flex justify-center items-center font-bold
-                 text-lg text-white bg-black rounded-full w-full h-10 mt-5" type="submit" name="submit" value="submit">Submit</button>
+                 text-lg text-white bg-black rounded-full w-full h-10 mt-5" type="submit" name="submit"
+            value="submit">Submit</button>
     </form>
 </div>
 
